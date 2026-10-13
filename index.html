@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vikram — apps I’ve built</title>
+  <meta name="description" content="Four web apps by Vikram: sales and stock, a PS5 gaming lounge, family fixed deposits, and family lending. Each is live and installs on a phone.">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f5f7;
+      --ink: #1d1d1f;
+      --muted: #6e6e73;
+      --line: rgba(0, 0, 0, 0.12);
+      --fill: #1d1d1f;
+      --fill-ink: #f5f5f7;
+      --stage: #e8e8ed;
+      --stage-2: #fbfbfd;
+      --device: #1d1d1f;
+      --url: #2c2c2e;
+      --url-ink: #a1a1a6;
+      --hinge: #d2d2d7;
+      --ui: #f7f7f5;
+      --ui-ink: #1d1d1f;
+      --ui-muted: #6e6e73;
+      --ui-line: rgba(0, 0, 0, 0.08);
+      --ui-card: #ffffff;
+      --accent: #0a66c2;
+      --bar: #1d1d1f;
+      --bar-ink: #f5f5f7;
+      --shadow-soft: none;
+    }
+
+    body[data-proto="noir"] {
+      color-scheme: dark;
+      --bg: #000000;
+      --ink: #f5f5f7;
+      --muted: #a1a1a6;
+      --line: rgba(255, 255, 255, 0.16);
+      --fill: #f5f5f7;
+      --fill-ink: #000000;
+      --stage: #0a0a0a;
+      --stage-2: #111113;
+      --device: #1c1c1e;
+      --url: #2c2c2e;
+      --url-ink: #a1a1a6;
+      --hinge: #2c2c2e;
+      --ui: #f4f4f2;
+      --ui-ink: #1d1d1f;
+      --ui-muted: #6e6e73;
+      --ui-line: rgba(0, 0, 0, 0.08);
+      --ui-card: #ffffff;
+      --accent: #4da3ff;
+      --bar: #0a0a0a;
+      --bar-ink: #f5f5f7;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+      letter-spacing: -0.011em;
+    }
+    button, a { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .proto-bar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-height: 44px;
+      padding: 8px 20px;
+      background: var(--bar);
+      color: var(--bar-ink);
+      font-size: 13px;
+    }
+    .proto-bar strong { font-weight: 600; }
+    .proto-bar .note { color: #a1a1a6; }
+    .switch {
+      margin-left: auto;
+      display: flex;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .switch button {
+      border: 0;
+      background: transparent;
+      color: #d2d2d7;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+    .switch button[aria-pressed="true"] {
+      background: #f5f5f7;
+      color: #1d1d1f;
+    }
+
+    .nav {
+      position: sticky;
+      top: 44px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+      padding: 0 28px;
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      backdrop-filter: saturate(180%) blur(16px);
+      border-bottom: 1px solid transparent;
+    }
+    .wordmark, .text-btn {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .wordmark {
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .text-btn { color: var(--muted); font-weight: 500; font-size: 14px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-apps, .nav-more { display: flex; align-items: center; gap: 22px; }
+    .nav-more {
+      padding-left: 28px;
+      border-left: 1px solid var(--line);
+    }
+
+    .page { display: block; }
+    .hero {
+      padding: 72px 28px 24px;
+      text-align: center;
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0 auto;
+      max-width: min(14ch, 100%);
+      font-size: clamp(56px, 8vw, 104px);
+      line-height: 0.94;
+      letter-spacing: -0.045em;
+      font-weight: 600;
+    }
+    .lede {
+      margin: 20px auto 0;
+      max-width: 36rem;
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.4;
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      padding: 0 20px;
+      border-radius: 980px;
+      border: 0;
+      background: var(--fill);
+      color: var(--fill-ink);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
+      gap: 48px;
+      align-items: center;
+      padding: 72px 7vw 88px;
+    }
+    .showcase .device { width: min(620px, 100%); }
+    .showcase:nth-of-type(even) { background: var(--stage); }
+    .showcase:nth-of-type(odd) { background: var(--stage-2); }
+    .showcase h2 {
+      margin: 0;
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 0.96;
+      letter-spacing: -0.045em;
+      font-weight: 600;
+    }
+    .showcase p { color: var(--muted); font-size: 21px; max-width: 28ch; }
+    .showcase .btn { margin-top: 8px; }
+    .linkish {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .band {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 100px 8vw;
+    }
+    .band:nth-child(even) { background: var(--stage); }
+    .band.flip .copy { order: 2; }
+    .band h2, .chapter h2 {
+      margin: 0 0 12px;
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      font-weight: 600;
+    }
+    .band p, .chapter p { margin: 0; color: var(--muted); font-size: 19px; max-width: 36ch; }
+
+    .close {
+      padding: 100px 28px 80px;
+      text-align: center;
+    }
+    .close h2 {
+      margin: 0 auto 8px;
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      font-weight: 600;
+    }
+    .foot {
+      padding: 28px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise-in 0.8s ease forwards;
+    }
+    @keyframes rise-in { to { opacity: 1; transform: none; } }
+
+    [data-page="home"] .hero > *,
+    [data-page="home"] .showcase > div:first-child > *,
+    [data-page="home"] .showcase .pair > *,
+    [data-page="home"] .foot {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    [data-page="home"] .hero > * {
+      animation: rise-in 0.85s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
+    }
+    [data-page="home"] .hero > :nth-child(2) { animation-delay: 0.1s; }
+    [data-page="home"] .hero > :nth-child(3) { animation-delay: 0.2s; }
+    [data-page="home"] .showcase.inview > div:first-child > *,
+    [data-page="home"] .showcase.inview .pair > *,
+    [data-page="home"] .foot.inview {
+      animation: rise-in 0.85s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
+    }
+    [data-page="home"] .showcase.inview > div:first-child > :nth-child(2) { animation-delay: 0.08s; }
+    [data-page="home"] .showcase.inview > div:first-child > :nth-child(3) { animation-delay: 0.16s; }
+    [data-page="home"] .showcase.inview > div:first-child > :nth-child(4) { animation-delay: 0.24s; }
+    [data-page="home"] .showcase.inview > div:first-child > :nth-child(5) { animation-delay: 0.32s; }
+    .features {
+      list-style: none;
+      margin: 18px 0 26px;
+      padding: 0;
+      display: grid;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .features li { display: flex; align-items: flex-start; gap: 10px; }
+    .features li > span { flex: none; width: 1.4em; font-size: 1.1em; line-height: 1.3; text-align: center; }
+    .features.wide {
+      width: min(1040px, 100%);
+      max-width: none;
+      margin: 40px auto 8px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0;
+      text-align: left;
+      border: 0;
+      font-size: 16px;
+    }
+    .features.wide:has(> li:nth-child(4):last-child) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .features.wide li {
+      display: block;
+      min-height: 0;
+      padding: 2px 14px;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      border-left: 1px solid var(--line);
+    }
+    .features.wide li:first-child { border-left: 0; padding-left: 2px; }
+    .features.wide li > span {
+      width: auto;
+      height: auto;
+      display: block;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      font-size: 18px;
+      line-height: 1;
+      text-align: left;
+    }
+    .features.wide li div { display: block; }
+    .features.wide b {
+      display: block;
+      margin: 8px 0 4px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .features.wide p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .tech-intro { padding-bottom: 42px; }
+    .tech-grid {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto 88px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .tech-card {
+      padding: 28px;
+      border-radius: 24px;
+      background: var(--stage-2);
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .tech-card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .tech-card h2 {
+      margin: 0;
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 600;
+    }
+    .tech-card-head a {
+      flex: none;
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .tech-card ul {
+      list-style: none;
+      margin: 18px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 13px;
+    }
+    .tech-card li {
+      display: grid;
+      grid-template-columns: 1.5rem minmax(0, 1fr);
+      gap: 9px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .tech-card li span { text-align: center; }
+    .tech-card li b { color: var(--ink); font-weight: 600; }
+    .tech-card .tech-note {
+      margin: 18px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .contact-panel {
+      width: min(720px, calc(100% - 40px));
+      margin: 0 auto 88px;
+      display: grid;
+      gap: 12px;
+    }
+    .contact-row {
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      padding: 22px 24px;
+      border-radius: 22px;
+      background: var(--stage-2);
+      box-shadow: inset 0 0 0 1px var(--line);
+      color: inherit;
+      text-decoration: none;
+    }
+    .contact-row > span { font-size: 22px; line-height: 1; text-align: center; }
+    .contact-row b {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .contact-row em {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-style: normal;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      overflow-wrap: anywhere;
+    }
+    [data-page="home"] .showcase.inview .pair > :nth-child(1) { animation-delay: 0.12s; }
+    [data-page="home"] .showcase.inview .pair > :nth-child(2) { animation-delay: 0.22s; }
+
+    .device {
+      position: relative;
+      width: min(640px, 100%);
+      aspect-ratio: 800 / 488;
+      margin-inline: auto;
+      background: url("hd_macbook.png") center / 100% 100% no-repeat;
+    }
+    .device.small { width: min(520px, 100%); }
+    .bezel {
+      position: absolute;
+      left: 9.625%;
+      top: 4.098%;
+      width: 80.75%;
+      height: 83.197%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #0c0c0d;
+      padding: 0;
+    }
+    .chrome-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: none;
+      height: 22px;
+      padding: 0 8px;
+      background: #161617;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #3a3a3c;
+    }
+    .url {
+      margin-left: 8px;
+      flex: 1;
+      min-width: 0;
+      height: 18px;
+      border-radius: 6px;
+      background: var(--url);
+      color: var(--url-ink);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      letter-spacing: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .screen {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      aspect-ratio: auto;
+      overflow: hidden;
+      background: var(--ui);
+      color: var(--ui-ink);
+    }
+    .hinge { display: none; }
+
+    .ui {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 147.06%;
+      height: 147.06%;
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      font-size: 12px;
+      letter-spacing: 0;
+      transform: scale(0.68);
+      transform-origin: top left;
+    }
+    .side {
+      padding: 16px 12px;
+      border-right: 1px solid var(--ui-line);
+      background: #efefec;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .side strong { font-size: 14px; }
+    .side span { color: var(--ui-muted); padding: 6px 8px; border-radius: 8px; }
+    .side span.on { background: #fff; color: var(--ui-ink); }
+    .pane { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+    .pane-head, .row, .stats { display: flex; align-items: center; }
+    .pane-head { justify-content: space-between; }
+    .pane-head h3 { margin: 0; font-size: 22px; letter-spacing: -0.03em; }
+    .kicker { margin: 0; color: var(--ui-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .chip {
+      border: 0;
+      background: var(--ui-ink);
+      color: white;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+    }
+    .stats { gap: 8px; }
+    .stat {
+      flex: 1;
+      background: var(--ui-card);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+    }
+    .stat span { display: block; color: var(--ui-muted); font-size: 11px; }
+    .stat b { font-size: 18px; letter-spacing: -0.03em; }
+    .amt { display: inline-grid; }
+    .amt span { grid-area: 1 / 1; }
+    .list { display: flex; flex-direction: column; gap: 6px; }
+    .row {
+      gap: 10px;
+      background: var(--ui-card);
+      border-radius: 10px;
+      padding: 8px 10px;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+    }
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #d9e6f5;
+      flex: none;
+    }
+    .row div { display: flex; flex-direction: column; }
+    .row small { color: var(--ui-muted); }
+    .row em { margin-left: auto; font-style: normal; font-weight: 600; }
+    .shot { position: absolute; inset: 0; }
+    .shot[hidden] { display: none !important; }
+
+    .pop {
+      margin: auto;
+      width: min(280px, 80%);
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+    }
+    .pop b { display: block; font-size: 20px; letter-spacing: -0.03em; margin: 8px 0; }
+    .check {
+      width: 36px;
+      height: 36px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: #e7f6ec;
+      color: #137333;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+    .share {
+      align-self: center;
+      margin-top: 28px;
+      width: min(360px, 86%);
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+    }
+    .share code {
+      display: block;
+      margin-top: 8px;
+      background: #f3f3f1;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .notes { grid-template-columns: 1fr; }
+    .search {
+      margin: 14px 14px 0;
+      height: 34px;
+      border-radius: 10px;
+      background: white;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 8px;
+      color: var(--ui-muted);
+    }
+    .caret {
+      display: inline-block;
+      width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      color: var(--ui-ink);
+      border-right: 1px solid var(--ui-ink);
+      animation: typing 8s steps(16, end) infinite;
+    }
+    @keyframes typing {
+      0%, 8% { width: 0; }
+      42%, 78% { width: 16ch; }
+      100% { width: 0; }
+    }
+    .hits { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .hit {
+      background: white;
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+    }
+    .hit b { display: block; }
+    .hit span { color: var(--ui-muted); font-size: 11px; }
+    .hit.late, .row.late {
+      animation: fade-row 8s infinite;
+    }
+    @keyframes fade-row {
+      0%, 38% { opacity: 0; transform: translateY(6px); }
+      52%, 84% { opacity: 1; transform: none; }
+      100% { opacity: 0; }
+    }
+    .amt .next { animation: fade-row 8s infinite; }
+    .pin {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: var(--accent);
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .chip.gold { background: #c97a2b; }
+    .bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 52px;
+      padding: 8px 10px 0;
+      background: var(--ui-card);
+      border-radius: 12px;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+    }
+    .bars i {
+      flex: 1;
+      display: block;
+      border-radius: 3px 3px 0 0;
+      background: #c97a2b;
+    }
+    .bars i.on { background: #9c5d1e; }
+    .qty {
+      margin-left: auto;
+      min-width: 28px;
+      height: 22px;
+      border-radius: 6px;
+      background: #f3f3f1;
+      display: grid;
+      place-items: center;
+      font-weight: 600;
+    }
+    .low { color: #b42318; font-weight: 600; }
+
+    .pair {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 28px;
+    }
+    .hero-pair {
+      max-width: 1080px;
+      margin: 0 auto 72px;
+      padding-inline: 24px;
+    }
+    .hero-pair .device { width: min(520px, calc(100% - 270px)); min-width: 0; }
+    .showcase .pair { gap: 16px; justify-content: flex-end; }
+    .showcase .pair .device {
+      width: auto;
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: calc(100% - 192px);
+    }
+    .showcase:has(.pair .device) {
+      grid-template-columns: minmax(260px, 0.65fr) minmax(320px, 1.35fr);
+      gap: 32px;
+    }
+    .showcase .pair .phone { width: 176px; }
+    .phone {
+      position: relative;
+      width: 220px;
+      flex: none;
+      aspect-ratio: 388 / 800;
+      container-type: inline-size;
+    }
+    .shell { position: absolute; inset: 0; }
+    .phone .screen {
+      position: absolute;
+      left: 2.577%;
+      top: 1.25%;
+      width: 94.845%;
+      height: 97.5%;
+      aspect-ratio: auto;
+      border-radius: 13.04% / 6.15%;
+      overflow: hidden;
+      background: var(--ui);
+      box-shadow: none;
+      z-index: 1;
+      container-type: inline-size;
+    }
+    .phone.s24 { aspect-ratio: 391 / 800; }
+    .phone.s24 .screen {
+      left: 3.836%;
+      top: 1.625%;
+      width: 91.816%;
+      height: 96.5%;
+      border-radius: 1.11% / 0.52%;
+    }
+    .showcase .pair.phones { justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 6;
+      pointer-events: none;
+      user-select: none;
+    }
+    .status {
+      position: absolute;
+      z-index: 5;
+      top: 2.9cqw;
+      left: 0;
+      right: 0;
+      height: 9cqw;
+      display: grid;
+      grid-template-columns: 1fr 38cqw 1fr;
+      align-items: center;
+      padding: 0 6.5cqw;
+      color: #111;
+      font-weight: 650;
+      font-size: 5cqw;
+      letter-spacing: -0.03em;
+      pointer-events: none;
+    }
+    .time { justify-self: start; }
+    .sys {
+      grid-column: 3;
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 1cqw;
+    }
+    .sys svg { display: block; height: 4.4cqw; width: auto; }
+    .island {
+      position: absolute;
+      z-index: 6;
+      top: 2.5cqw;
+      left: 50%;
+      width: 31cqw;
+      height: 9.2cqw;
+      margin-left: -15.5cqw;
+      border-radius: 999px;
+      background: #000;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .home-bar {
+      position: absolute;
+      z-index: 7;
+      left: 50%;
+      bottom: 2.2cqw;
+      width: 35%;
+      height: max(4px, 1.45cqw);
+      margin-left: -17.5%;
+      border-radius: 999px;
+      background: #111;
+      pointer-events: none;
+    }
+    .mframe { position: absolute; left: 0; right: 0; top: 13.5cqw; bottom: 0; }
+    .reel .mframe { opacity: 0; animation: reel 12s infinite; }
+    .reel .mframe:nth-child(2 of .mframe) { animation-delay: -4s; }
+    .reel .mframe:nth-child(3 of .mframe) { animation-delay: -8s; }
+    @keyframes reel {
+      0%, 28% { opacity: 1; }
+      34%, 100% { opacity: 0; }
+    }
+    .mui {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 121.96%;
+      height: 121.96%;
+      display: flex;
+      flex-direction: column;
+      background: var(--ui);
+      color: var(--ui-ink);
+      font-size: 11px;
+      transform: scale(0.82);
+      transform-origin: top left;
+    }
+    .mbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 34px;
+      padding: 0 12px;
+      font-size: 14px;
+    }
+    .menu {
+      width: 14px;
+      height: 10px;
+      border-top: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat;
+    }
+    .mbody {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 2px 10px 58px;
+      overflow: hidden;
+    }
+    .mbody h3 { margin: 0; font-size: 18px; letter-spacing: -0.03em; }
+    .mbody > .stat { flex: none; }
+    .mbody.sale { padding-bottom: 52px; gap: 6px; }
+    .sellers { display: flex; gap: 6px; }
+    .sellers span {
+      flex: 1;
+      min-width: 0;
+      background: #fff;
+      border-radius: 10px;
+      padding: 7px 6px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.2;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+    }
+    .sellers span.on {
+      background: rgba(201, 122, 43, 0.12);
+      box-shadow: inset 0 0 0 1.5px #c97a2b;
+    }
+    .sellers small { display: block; color: var(--ui-muted); font-weight: 500; font-size: 9px; }
+    .field, .due, .full {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: inset 0 0 0 1px var(--ui-line);
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+    }
+    .field span, .due span { color: var(--ui-muted); }
+    .full { justify-content: center; font-weight: 700; background: #f3f3f1; }
+    .ghost-act { color: var(--ui-muted); font-size: 11px; font-weight: 650; }
+    .mtabs, .msalebar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid var(--ui-line);
+    }
+    .mtabs {
+      display: flex;
+      height: auto;
+      padding: 1.2cqw 2cqw 7cqw;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.12);
+    }
+    .mtabs span {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: var(--ui-muted);
+      font-size: 9px;
+      line-height: 1.1;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .reel .mtabs span { font-size: 0; gap: 0; }
+    .reel .mtabs svg { width: 17px; height: 17px; }
+    .showcase .mtabs { padding-bottom: 12cqw; }
+    .mtabs span.on { color: #c97a2b; font-weight: 700; }
+    .mtabs svg {
+      width: 13px;
+      height: 13px;
+      flex: none;
+    }
+    .msalebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 1.6cqw 3cqw 7cqw;
+    }
+    .msalebar b { font-size: 13px; letter-spacing: -0.03em; }
+    .msalebar .chip { margin-left: auto; }
+    .handsets {
+      padding: 12px 7vw 88px;
+      text-align: center;
+    }
+    .handsets h2 {
+      margin: 0;
+      font-size: clamp(36px, 4vw, 56px);
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+    }
+    .handset-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 28px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+    .handset { width: 260px; }
+    .handset .phone { width: 100%; }
+    .handset figcaption {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .phone-hero {
+      display: flex;
+      justify-content: center;
+      margin: 8px auto 72px;
+    }
+    .phone-hero .phone { width: 240px; }
+    .showcase .pair.solo { justify-content: center; }
+    .band .phone, .story-stage .phone, .inline-shot .phone { margin-inline: auto; }
+    .story-stage .phone { width: min(260px, 100%); }
+    .screen.fd-os { background: #09090b; }
+    .screen.fd-os .status { color: #f4f4f5; }
+    .screen.fd-os .home-bar { background: rgba(255, 255, 255, 0.88); }
+    .fd { background: #09090b; color: #f4f4f5; }
+    .fd .kicker, .fd .row small, .fd .stat span, .fd .field span { color: #a1a1aa; }
+    .fd .row, .fd .stat, .fd .field, .fd .due {
+      background: #18181b;
+      color: #f4f4f5;
+      box-shadow: inset 0 0 0 1px #27272a;
+    }
+    .fd .mtabs {
+      background: #09090b;
+      border-top-color: #27272a;
+    }
+    .fd .sellers span {
+      background: #18181b;
+      color: #f4f4f5;
+      box-shadow: inset 0 0 0 1px #27272a;
+    }
+    .fd .sellers span.on {
+      background: rgba(201, 122, 43, 0.16);
+      box-shadow: inset 0 0 0 1.5px #c97a2b;
+    }
+    .pill.warn, .fd .pill.warn {
+      background: rgba(217, 130, 43, 0.18);
+      color: #e8b06a;
+    }
+    .fd .money { font-size: 13px; letter-spacing: -0.04em; white-space: nowrap; }
+    .fd-dashboard {
+      gap: 8px;
+      padding-top: 3px;
+    }
+    .fd-greeting h3 {
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+    .fd-greeting p {
+      margin: 4px 0 0;
+      color: #a1a1aa;
+    }
+    .fd-summary {
+      position: relative;
+      overflow: hidden;
+      flex: none;
+      padding: 12px;
+      border: 1px solid #27272a;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(201, 122, 43, 0.16), transparent 55%),
+        #18181b;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+    .fd-summary-logo {
+      position: absolute;
+      top: -8px;
+      right: -18px;
+      width: 126px;
+      height: 126px;
+      border-radius: 50%;
+      object-fit: cover;
+      opacity: 0.42;
+      mix-blend-mode: soft-light;
+      -webkit-mask-image: radial-gradient(circle at 50% 45%, #000 28%, transparent 70%);
+      mask-image: radial-gradient(circle at 50% 45%, #000 28%, transparent 70%);
+    }
+    .fd-summary-main { position: relative; z-index: 1; max-width: 66%; }
+    .fd-family-line { display: flex; align-items: center; gap: 5px; font-weight: 700; }
+    .fd-eye {
+      width: 13px;
+      height: 13px;
+      color: #a1a1aa;
+    }
+    .fd-summary-main .label {
+      margin: 5px 0 0;
+      color: #a1a1aa;
+      font-size: 9px;
+    }
+    .fd-summary-main .principal {
+      margin: 5px 0 0;
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 750;
+      letter-spacing: -0.055em;
+    }
+    .fd-due-note { margin: 5px 0 0; color: #e8b06a; font-size: 9px; }
+    .fd-summary-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .fd-mini {
+      min-width: 0;
+      padding: 6px 4px;
+      border: 1px solid rgba(39, 39, 42, 0.75);
+      border-radius: 9px;
+      background: rgba(24, 24, 27, 0.58);
+      text-align: center;
+    }
+    .fd-mini .count {
+      display: block;
+      min-height: 10px;
+      color: #a1a1aa;
+      font-size: 7px;
+      text-align: right;
+    }
+    .fd-mini b {
+      display: block;
+      overflow: hidden;
+      font-size: 12px;
+      line-height: 1.1;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .fd-mini small { color: #a1a1aa; font-size: 7px; }
+    .fd-carousel-dots { display: flex; justify-content: center; gap: 5px; }
+    .fd-carousel-dots i {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: #27272a;
+    }
+    .fd-carousel-dots i:first-child { width: 13px; background: #c97a2b; }
+    .fd-scope { display: flex; justify-content: center; gap: 5px; }
+    .fd-scope span {
+      padding: 3px 8px;
+      border: 1px solid #27272a;
+      border-radius: 999px;
+      color: #d4d4d8;
+      font-size: 8px;
+    }
+    .fd-scope span:first-child {
+      border-color: transparent;
+      background: linear-gradient(135deg, #e0a461, #c97a2b 60%, #9c5d1e);
+      color: #09090b;
+      font-weight: 700;
+    }
+    .fd-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1px;
+      padding-inline: 2px;
+    }
+    .fd-section-head b { font-size: 11px; }
+    .fd-section-head span { color: #c97a2b; font-size: 8px; }
+    .dep-dash { gap: 7px; padding-top: 1px; }
+    .dep-dash h3 { margin: 0; font-size: 22px; line-height: 1; letter-spacing: -0.04em; }
+    .dep-date { margin: 3px 0 0; color: #a1a1aa; font-size: 10px; }
+    .dep-label { margin: 2px 0 0; font-size: 10px; font-weight: 700; }
+    .dep-track { display: flex; gap: 8px; overflow: hidden; }
+    .dep-card {
+      flex: 0 0 78%;
+      min-width: 0;
+      padding: 9px;
+      border-radius: 12px;
+      background: #18181b;
+      box-shadow: inset 0 0 0 1px #27272a;
+    }
+    .dep-card.all {
+      background-image: linear-gradient(160deg, rgba(201, 122, 43, 0.16), rgba(201, 122, 43, 0.03));
+      box-shadow: inset 0 0 0 1px rgba(201, 122, 43, 0.4);
+    }
+    .dep-card-top { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; font-size: 11px; font-weight: 700; }
+    .dep-mark {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #e0a461, #c97a2b 60%, #9c5d1e);
+      color: #1b1710;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .dep-mark.soft { background: rgba(201, 122, 43, 0.16); color: #e8b06a; }
+    .dep-k { margin: 0; color: #a1a1aa; font-size: 8px; }
+    .dep-invested { margin: 1px 0 6px; font-size: 14px; font-weight: 750; letter-spacing: -0.04em; white-space: nowrap; }
+    .dep-split { display: flex; gap: 8px; }
+    .dep-split b { display: block; margin-top: 1px; font-size: 10px; font-weight: 650; white-space: nowrap; }
+    .dep-dots { display: flex; justify-content: center; gap: 4px; }
+    .dep-dots i { width: 5px; height: 5px; border-radius: 50%; background: #3f3f46; }
+    .dep-dots i.on { background: #c97a2b; }
+    .meter {
+      height: 6px;
+      border-radius: 999px;
+      background: #27272a;
+      overflow: hidden;
+    }
+    .meter i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: #c97a2b;
+    }
+    .screen.dark-os { background: #071422; }
+    .screen.dark-os .status { color: #f4f7fb; }
+    .screen.dark-os .home-bar { background: rgba(255, 255, 255, 0.88); }
+    .showcase .zone {
+      width: 151.52%;
+      height: 151.52%;
+      transform: scale(0.66);
+    }
+    .showcase .mui {
+      width: 192.31%;
+      height: 192.31%;
+      transform: scale(0.52);
+    }
+    .zone { background: #071422; color: #f4f7fb; }
+    .zone .pane.arena,
+    .mui.zone.arena {
+      background:
+        linear-gradient(100deg, #091525 8%, rgba(9, 21, 37, 0.9) 42%, rgba(9, 21, 37, 0.55) 100%),
+        url("phoenix-arena.webp") 72% center / cover no-repeat;
+    }
+    .dash-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .zone h3.word { font-size: 26px; line-height: 0.95; text-transform: uppercase; }
+    .zone .side { background: #0b1b2d; border-right-color: rgba(255, 255, 255, 0.08); }
+    .zone .side span { color: #93a4b8; }
+    .zone .side span.on { background: #2388ed; color: #fff; }
+    .zone .kicker, .zone .row small, .zone .stat span, .zone .field span { color: #93a4b8; }
+    .zone .row, .zone .stat, .zone .field, .zone .due, .zone .full {
+      background: #0e2438;
+      color: #f4f7fb;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .zone .full { background: #ffd141; color: #142033; font-weight: 700; }
+    .zone .chip.gold { background: #ffd141; color: #142033; }
+    .zone .mtabs, .zone .msalebar {
+      background: #071422;
+      border-top-color: rgba(255, 255, 255, 0.08);
+      color: #f4f7fb;
+    }
+    .zone .ghost-act { color: #93a4b8; }
+    .stations { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .pill {
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 700;
+      font-style: normal;
+    }
+    .pill.live, .zone .pill.live { background: rgba(255, 77, 90, 0.18); color: #ff8b96; }
+    .pill.free, .zone .pill.free { background: rgba(52, 199, 123, 0.16); color: #5ddeaf; }
+    .clock {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+      font-weight: 650;
+    }
+
+    .story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding: 0 8vw 80px;
+    }
+    .story-copy { display: flex; flex-direction: column; }
+    .chapter {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .story-stage {
+      position: sticky;
+      top: 140px;
+      align-self: start;
+      height: fit-content;
+    }
+    body[data-proto="airy"] .story { display: none; }
+    body[data-proto="noir"] .bands { display: none; }
+    .inline-shot { display: none; }
+
+    @media (max-width: 860px) {
+      html, body { overflow-x: clip; }
+      .proto-bar .note { display: none; }
+      .nav { top: 44px; padding: 0 16px; }
+      .nav-links { gap: 16px; }
+      .nav-apps, .nav-more { gap: 12px; }
+      .nav-more { padding-left: 16px; }
+      .nav .text-btn { font-size: 13px; }
+      .device { width: min(640px, calc(100% - 32px)); }
+      h1 { font-size: 36px; }
+      .lede { font-size: 17px; }
+      .hero, .close { padding-left: 16px; padding-right: 16px; }
+      .showcase, .band, .story {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 48px 16px;
+        min-height: 0;
+        width: 100%;
+      }
+      .showcase > *, .band > *, .device, .bezel, .screen { min-width: 0; max-width: 100%; }
+      .lede { max-width: 34rem; }
+      .features.wide,
+      .features.wide:has(> li:nth-child(4):last-child) {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px 8px;
+      }
+      .features.wide li { border-left: 0; padding: 0 10px; }
+      .tech-grid { grid-template-columns: 1fr; width: min(100% - 32px, 620px); }
+      .band.flip .copy { order: 0; }
+      .story-stage { display: none; }
+      .inline-shot { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: 24px; }
+      .pair { flex-direction: column; align-items: center; }
+      .showcase .pair.phones { flex-direction: row; }
+      .showcase:has(.pair .device) { grid-template-columns: minmax(0, 1fr); }
+      .showcase .pair .device { width: 100%; max-width: 100%; flex: none; }
+      .showcase .pair.phones .phone { width: min(160px, 42vw); }
+      .pair .device, .hero-pair .device { width: min(640px, calc(100% - 32px)); }
+      .phone { width: min(220px, 72vw); }
+      .chapter { min-height: 0; padding: 48px 0; }
+      .ui { grid-template-columns: 1fr; }
+      .side { display: none; }
+      .foot { flex-direction: column; }
+    }
+    @media (max-width: 640px) {
+      .nav {
+        height: auto;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px 16px;
+      }
+      .nav-links { width: 100%; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-apps, .nav-more { flex-wrap: wrap; gap: 8px 12px; }
+      .nav-more { width: 100%; margin: 0; padding: 8px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+      .nav .text-btn { white-space: nowrap; font-size: 13px; }
+      .tech-card { padding: 22px 18px; }
+      .contact-row { padding: 18px; }
+      .contact-row em { font-size: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .caret, .hit.late, .row.late, .amt .next, .reel .mframe,
+      [data-page="home"] .hero > *,
+      [data-page="home"] .showcase > div:first-child > *,
+      [data-page="home"] .showcase .pair > *,
+      [data-page="home"] .foot { animation: none; opacity: 1; width: auto; transform: none; }
+      .amt .prev { display: none; }
+      .reel .mframe { opacity: 0; }
+      .reel .mframe:nth-child(1 of .mframe) { opacity: 1; }
+    }
+  </style>
+</head>
+<body data-proto="airy">
+  <div class="proto-bar">
+    <strong>Prototypes</strong>
+    <span class="note">Screens are illustrated from the live app. Loops stand in for recordings.</span>
+    <div class="switch" role="group" aria-label="Prototype direction">
+      <button type="button" data-proto-btn="airy" aria-pressed="true">Airy</button>
+      <button type="button" data-proto-btn="noir" aria-pressed="false">Noir</button>
+    </div>
+  </div>
+
+  <header class="nav">
+    <button class="wordmark" type="button" data-go="home">VIKRAM MULGUND</button>
+    <nav class="nav-links" aria-label="Primary">
+      <div class="nav-apps">
+        <button class="text-btn" type="button" data-go="mig">MIG Stock</button>
+        <button class="text-btn" type="button" data-go="phoenix">Phoenix</button>
+        <button class="text-btn" type="button" data-go="fd">Lalitamba</button>
+        <button class="text-btn" type="button" data-go="dep">Deposits</button>
+      </div>
+      <div class="nav-more">
+        <button class="text-btn" type="button" data-go="stack">Tech Stack</button>
+        <button class="text-btn" type="button" data-go="contact">Contact Us</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page" data-page="home">
+    <section class="hero">
+      <p class="eyebrow">Vikram · Portfolio</p>
+      <h1>Apps I’ve built for real work.</h1>
+      <p class="lede">Four web apps, each built for a specific job and each live online. They run in a browser and install on a phone. Open any of them to see how it works, try the live app, or read the code.</p>
+    </section>
+
+    <section class="showcase">
+      <div>
+        <p class="eyebrow">Sales and inventory</p>
+        <h2>MIG Stock</h2>
+        <p>Sales and stock for a shop that sells clamps. Ring up a sale and the stock count updates with it, on the counter laptop or a phone.</p>
+        <ul class="features">
+          <li><span aria-hidden="true">🧾</span>Sales by product and by customer</li>
+          <li><span aria-hidden="true">💬</span>Invoices shared on WhatsApp</li>
+          <li><span aria-hidden="true">📦</span>Stock that updates with every sale</li>
+          <li><span aria-hidden="true">📊</span>Sales reports</li>
+          <li><span aria-hidden="true">🤖</span>Gemini chatbot for questions like “what’s low on stock?”</li>
+        </ul>
+        <button class="btn" type="button" data-go="mig">See how it works</button>
+      </div>
+      <div class="pair">
+        <div class="device" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
+            <div class="screen" id="mig-hero-screen"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+        <div class="phone reel" aria-hidden="true">
+          <div class="shell">
+            <div class="screen">
+              <div class="mframe" data-mount="phone-dash"></div>
+              <div class="mframe" data-mount="phone-sale"></div>
+              <div class="mframe" data-mount="phone-stock"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="showcase">
+      <div>
+        <p class="eyebrow">Gaming lounge</p>
+        <h2>Phoenix</h2>
+        <p>Runs a PS5 gaming lounge. Start a session on a console, the timer keeps counting, and the bill is worked out when the player leaves.</p>
+        <ul class="features">
+          <li><span aria-hidden="true">🎮</span>See which PS5s are free, and start a session from the station</li>
+          <li><span aria-hidden="true">⏱️</span>Live timers that keep counting from when play starts</li>
+          <li><span aria-hidden="true">🧾</span>Bills with a one-hour minimum, then 30-minute intervals</li>
+          <li><span aria-hidden="true">📈</span>Daily revenue, most-visited customers, and usage of each PS5</li>
+        </ul>
+        <button class="btn" type="button" data-go="phoenix">See how it works</button>
+      </div>
+      <div class="pair">
+        <div class="device" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
+            <div class="screen" data-mount="px-dash"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+        <div class="phone reel" aria-hidden="true">
+          <div class="shell">
+            <div class="screen dark-os">
+              <div class="mframe" data-mount="phone-px-dash"></div>
+              <div class="mframe" data-mount="phone-floor"></div>
+              <div class="mframe" data-mount="phone-timer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="showcase">
+      <div>
+        <p class="eyebrow">Fixed deposits</p>
+        <h2>Lalitamba</h2>
+        <p>One family’s fixed deposits with a cooperative society, in one place: what matures when, the monthly interest, and each member’s passbook.</p>
+        <ul class="features">
+          <li><span aria-hidden="true">📸</span>Scan a receipt — Gemini creates the FD, even from an unclear photo</li>
+          <li><span aria-hidden="true">🛡️</span>Super admin approves new records</li>
+          <li><span aria-hidden="true">👪</span>Family members track their own FDs</li>
+          <li><span aria-hidden="true">📊</span>Dashboard of the total, matured FDs, and what’s coming due</li>
+        </ul>
+        <button class="btn" type="button" data-go="fd">See how it works</button>
+      </div>
+      <div class="pair solo phones">
+        <div class="phone reel" aria-hidden="true">
+          <div class="shell">
+            <div class="screen fd-os">
+              <div class="mframe" data-mount="fd-home"></div>
+              <div class="mframe" data-mount="fd-list"></div>
+              <div class="mframe" data-mount="fd-book"></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone s24 reel" aria-hidden="true">
+          <div class="shell">
+            <div class="screen fd-os">
+              <div class="mframe" data-mount="fd-home"></div>
+              <div class="mframe" data-mount="fd-list"></div>
+              <div class="mframe" data-mount="fd-book"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="showcase">
+      <div>
+        <p class="eyebrow">Family lending</p>
+        <h2>Deposits</h2>
+        <p>Tracks money lent within a family. Each deposit earns 2% a month; the app shows what is ready to collect and how close each one is to paying back.</p>
+        <ul class="features">
+          <li><span aria-hidden="true">💰</span>Total deposited, with a separate balance for each family member</li>
+          <li><span aria-hidden="true">🔔</span>Monthly reminders when interest is ready to collect</li>
+          <li><span aria-hidden="true">📈</span>See how much interest the family has recovered so far</li>
+          <li><span aria-hidden="true">👤</span>Record withdrawals and who collected the money</li>
+          <li><span aria-hidden="true">📊</span>Family-wide analytics for investments, collections, and withdrawals</li>
+        </ul>
+        <button class="btn" type="button" data-go="dep">See how it works</button>
+      </div>
+      <div class="pair solo phones">
+        <div class="phone reel" aria-hidden="true">
+          <div class="shell">
+            <div class="screen fd-os">
+              <div class="mframe" data-mount="dep-home"></div>
+              <div class="mframe" data-mount="dep-collect"></div>
+              <div class="mframe" data-mount="dep-stats"></div>
+            </div>
+          </div>
+        </div>
+        <div class="phone s24 reel" aria-hidden="true">
+          <div class="shell">
+            <div class="screen fd-os">
+              <div class="mframe" data-mount="dep-home"></div>
+              <div class="mframe" data-mount="dep-collect"></div>
+              <div class="mframe" data-mount="dep-stats"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>VIKRAM MULGUND · portfolio</span>
+      <span>Each live app asks for a sign-in. Names and amounts in the screens are samples.</span>
+    </footer>
+  </main>
+
+  <main class="page" data-page="mig" hidden>
+    <section class="hero">
+      <p class="eyebrow">Web app</p>
+      <h1>MIG Stock</h1>
+      <p class="lede">Stock and sales for the counter, and a PWA on the phone. A sale writes the ledger, the receipt, and today’s totals together.</p>
+      <ul class="features wide">
+        <li><span aria-hidden="true">🧾</span><div><b>Sales tracking</b><p>Every sale by product, and by customer.</p></div></li>
+        <li><span aria-hidden="true">💬</span><div><b>Invoices on WhatsApp</b><p>Share each invoice straight to the customer.</p></div></li>
+        <li><span aria-hidden="true">📦</span><div><b>Stock management</b><p>Counts drop as you sell.</p></div></li>
+        <li><span aria-hidden="true">📊</span><div><b>Reports</b><p>Sales totals and top customers.</p></div></li>
+        <li><span aria-hidden="true">🤖</span><div><b>Gemini chatbot</b><p>Ask about low stock, today’s sales, or top customers.</p></div></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="https://mig-stock.vercel.app" target="_blank" rel="noopener">Live app</a>
+        <a class="btn ghost" href="https://github.com/vikramam/mig-stock" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+    <div class="pair hero-pair">
+      <div class="device" aria-hidden="true">
+        <div class="bezel">
+          <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
+          <div class="screen" data-mount="mig-dash"></div>
+        </div>
+        <div class="hinge"></div>
+      </div>
+      <div class="phone reel" aria-hidden="true">
+        <div class="shell">
+          <div class="screen">
+            <div class="mframe" data-mount="phone-dash"></div>
+            <div class="mframe" data-mount="phone-sale"></div>
+            <div class="mframe" data-mount="phone-stock"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="handsets">
+      <p class="eyebrow">PWA</p>
+      <h2>On the phone.</h2>
+      <p class="lede">Bottom navigation for the day. A new sale replaces that bar with the total and Complete sale.</p>
+      <div class="handset-row">
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen"><div class="mframe" data-mount="phone-dash"></div></div></div>
+          </div>
+          <figcaption>Dashboard</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen"><div class="mframe" data-mount="phone-sale"></div></div></div>
+          </div>
+          <figcaption>New sale</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen"><div class="mframe" data-mount="phone-stock"></div></div></div>
+          </div>
+          <figcaption>Inventory</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="bands">
+      <section class="band">
+        <div class="copy reveal">
+          <h2>The day, on one screen.</h2>
+          <p>Sales today, pending balances, low stock, and a seven-day trend. Recent receipts sit under the chart.</p>
+        </div>
+        <div class="device small" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
+            <div class="screen" data-mount="mig-dash"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </section>
+      <section class="band flip">
+        <div class="copy reveal">
+          <h2>A sale that moves the stock.</h2>
+          <p>Pick the product, type, and size. Complete sale writes the line and the stock count in one step.</p>
+        </div>
+        <div class="device small" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/sale/new</span></div>
+            <div class="screen" data-mount="mig-sale"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </section>
+      <section class="band">
+        <div class="copy reveal">
+          <h2>Low stock, before the shelf is empty.</h2>
+          <p>Inventory lists what is under the threshold, with restock on the row.</p>
+        </div>
+        <div class="device small" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/low-stock</span></div>
+            <div class="screen" data-mount="mig-stock"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="story" data-pin>
+      <div class="story-copy">
+        <article class="chapter" data-shot="0">
+          <h2>The day, on one screen.</h2>
+          <p>Sales today, pending balances, low stock, and a seven-day trend. Recent receipts sit under the chart.</p>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div><div class="screen" data-mount="mig-dash"></div></div><div class="hinge"></div></div>
+        </article>
+        <article class="chapter" data-shot="1">
+          <h2>A sale that moves the stock.</h2>
+          <p>Pick the product, type, and size. Complete sale writes the line and the stock count in one step.</p>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/sale/new</span></div><div class="screen" data-mount="mig-sale"></div></div><div class="hinge"></div></div>
+        </article>
+        <article class="chapter" data-shot="2">
+          <h2>Low stock, before the shelf is empty.</h2>
+          <p>Inventory lists what is under the threshold, with restock on the row.</p>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/low-stock</span></div><div class="screen" data-mount="mig-stock"></div></div><div class="hinge"></div></div>
+        </article>
+      </div>
+      <div class="story-stage">
+        <div class="device">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
+            <div class="screen">
+              <div class="shot" data-frame="0" data-mount="mig-dash"></div>
+              <div class="shot" data-frame="1" data-mount="mig-sale"></div>
+              <div class="shot" data-frame="2" data-mount="mig-stock"></div>
+            </div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="foot"><span>MIG Stock · Clamp Sales</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+  </main>
+
+  <main class="page" data-page="phoenix" hidden>
+    <section class="hero">
+      <p class="eyebrow">Web app</p>
+      <h1>Phoenix</h1>
+      <p class="lede">Operator control for the shop floor. Start a session, keep the timer, and bill by the hour on the counter or a phone.</p>
+      <ul class="features wide">
+        <li><span aria-hidden="true">🎮</span><div><b>The floor</b><p>See which PS5s are free, and start a session.</p></div></li>
+        <li><span aria-hidden="true">⏱️</span><div><b>Live timer</b><p>The clock keeps counting from when play began.</p></div></li>
+        <li><span aria-hidden="true">🧾</span><div><b>Automatic billing</b><p>One hour minimum, then 30 minutes.</p></div></li>
+        <li><span aria-hidden="true">📊</span><div><b>The day</b><p>Revenue, live sessions, and what’s free.</p></div></li>
+        <li><span aria-hidden="true">📈</span><div><b>Usage reports</b><p>Daily revenue, top customers, and use of each PS5.</p></div></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="https://phoenix-gaming-zone.vercel.app" target="_blank" rel="noopener">Live app</a>
+        <a class="btn ghost" href="https://github.com/vikramam/phoenix-gaming-zone" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+    <div class="pair hero-pair">
+      <div class="device" aria-hidden="true">
+        <div class="bezel">
+          <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
+          <div class="screen" data-mount="px-dash"></div>
+        </div>
+        <div class="hinge"></div>
+      </div>
+      <div class="phone reel" aria-hidden="true">
+        <div class="shell">
+          <div class="screen dark-os">
+            <div class="mframe" data-mount="phone-px-dash"></div>
+            <div class="mframe" data-mount="phone-floor"></div>
+            <div class="mframe" data-mount="phone-timer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="handsets">
+      <p class="eyebrow">PWA</p>
+      <h2>On the phone.</h2>
+      <p class="lede">The day’s dashboard, then the floor, timers, and the bill.</p>
+      <div class="handset-row">
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen dark-os"><div class="mframe" data-mount="phone-px-dash"></div></div></div>
+          </div>
+          <figcaption>Dashboard</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen dark-os"><div class="mframe" data-mount="phone-floor"></div></div></div>
+          </div>
+          <figcaption>Floor</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen dark-os"><div class="mframe" data-mount="phone-timer"></div></div></div>
+          </div>
+          <figcaption>Active</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen dark-os"><div class="mframe" data-mount="phone-bill"></div></div></div>
+          </div>
+          <figcaption>Bill</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="bands">
+      <section class="band">
+        <div class="copy reveal">
+          <h2>The day, at a glance.</h2>
+          <p>Revenue, live sessions, and what is free or in use, over the arena.</p>
+        </div>
+        <div class="device small" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
+            <div class="screen" data-mount="px-dash"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </section>
+      <section class="band flip">
+        <div class="copy reveal">
+          <h2>The floor, live.</h2>
+          <p>See which PS5s are free or in use, and start a session from the station.</p>
+        </div>
+        <div class="device small" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
+            <div class="screen" data-mount="px-floor"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </section>
+      <section class="band">
+        <div class="copy reveal">
+          <h2>The timer is the start time.</h2>
+          <p>Refresh the page and the clock is still right. It is counted from when the session began.</p>
+        </div>
+        <div class="device small" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/active</span></div>
+            <div class="screen" data-mount="px-timer"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </section>
+      <section class="band flip">
+        <div class="copy reveal">
+          <h2>The bill rounds up.</h2>
+          <p>One hour minimum, then 30 minutes. An hour and 25 minutes bills as an hour and a half.</p>
+        </div>
+        <div class="device small" aria-hidden="true">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/history</span></div>
+            <div class="screen" data-mount="px-bill"></div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="story" data-pin>
+      <div class="story-copy">
+        <article class="chapter" data-shot="0">
+          <h2>The day, at a glance.</h2>
+          <p>Revenue, live sessions, and what is free or in use, over the arena.</p>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div><div class="screen" data-mount="px-dash"></div></div><div class="hinge"></div></div>
+        </article>
+        <article class="chapter" data-shot="1">
+          <h2>The floor, live.</h2>
+          <p>See which PS5s are free or in use, and start a session from the station.</p>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div><div class="screen" data-mount="px-floor"></div></div><div class="hinge"></div></div>
+        </article>
+        <article class="chapter" data-shot="2">
+          <h2>The timer is the start time.</h2>
+          <p>Refresh the page and the clock is still right. It is counted from when the session began.</p>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/active</span></div><div class="screen" data-mount="px-timer"></div></div><div class="hinge"></div></div>
+        </article>
+        <article class="chapter" data-shot="3">
+          <h2>The bill rounds up.</h2>
+          <p>One hour minimum, then 30 minutes. An hour and 25 minutes bills as an hour and a half.</p>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/history</span></div><div class="screen" data-mount="px-bill"></div></div><div class="hinge"></div></div>
+        </article>
+      </div>
+      <div class="story-stage">
+        <div class="device">
+          <div class="bezel">
+            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
+            <div class="screen">
+              <div class="shot" data-frame="0" data-mount="px-dash"></div>
+              <div class="shot" data-frame="1" data-mount="px-floor"></div>
+              <div class="shot" data-frame="2" data-mount="px-timer"></div>
+              <div class="shot" data-frame="3" data-mount="px-bill"></div>
+            </div>
+          </div>
+          <div class="hinge"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="foot"><span>Phoenix Gaming Zone</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+  </main>
+
+  <main class="page" data-page="fd" hidden>
+    <section class="hero">
+      <p class="eyebrow">Phone app</p>
+      <h1>Lalitamba</h1>
+      <p class="lede">A private PWA for one family’s fixed deposits at Shri Lalitamba Pattina Souharda Sahakari Ltd, Gadag. Photograph a certificate, confirm the fields, then track maturity, interest, and the passbook.</p>
+      <ul class="features wide">
+        <li><span aria-hidden="true">📸</span><div><b>Receipt scan</b><p>Gemini reads a receipt, even if the photo is unclear.</p></div></li>
+        <li><span aria-hidden="true">🛡️</span><div><b>Super admin</b><p>New records wait for a super admin to approve.</p></div></li>
+        <li><span aria-hidden="true">👪</span><div><b>Family members</b><p>Each member tracks their own FDs.</p></div></li>
+        <li><span aria-hidden="true">📊</span><div><b>Dashboard</b><p>Total amount, matured FDs, and what’s coming due.</p></div></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="https://lalitamba-fd-tracker.vercel.app" target="_blank" rel="noopener">Live app</a>
+        <a class="btn ghost" href="https://github.com/vikramam/lalitamba-fd-tracker" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+    <div class="phone-hero">
+      <div class="phone reel" aria-hidden="true">
+        <div class="shell">
+          <div class="screen fd-os">
+            <div class="mframe" data-mount="fd-home"></div>
+            <div class="mframe" data-mount="fd-list"></div>
+            <div class="mframe" data-mount="fd-book"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="handsets">
+      <p class="eyebrow">PWA</p>
+      <h2>On the phone.</h2>
+      <p class="lede">Home, the deposit list, and each member’s passbook.</p>
+      <div class="handset-row">
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-home"></div></div></div>
+          </div>
+          <figcaption>Home</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-list"></div></div></div>
+          </div>
+          <figcaption>FDs</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-book"></div></div></div>
+          </div>
+          <figcaption>Passbook</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="bands">
+      <section class="band">
+        <div class="copy reveal">
+          <h2>The book, on one screen.</h2>
+          <p>Principal outstanding, monthly interest, and what matures in the next 90 days. Closed deposits stay out of the totals.</p>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-home"></div></div></div>
+        </div>
+      </section>
+      <section class="band flip">
+        <div class="copy reveal">
+          <h2>Every certificate, by person.</h2>
+          <p>Search an FD number, filter what is due soon, and open the slip. Sample numbers 01FD40599 and 01FD32450 are the practice receipts.</p>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-list"></div></div></div>
+        </div>
+      </section>
+      <section class="band">
+        <div class="copy reveal">
+          <h2>A passbook beside the deposit.</h2>
+          <p>Credits and debits sit with the member. The FD principal stays on the certificate.</p>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-book"></div></div></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="story" data-pin>
+      <div class="story-copy">
+        <article class="chapter" data-shot="0">
+          <h2>The book, on one screen.</h2>
+          <p>Principal outstanding, monthly interest, and what matures in the next 90 days. Closed deposits stay out of the totals.</p>
+          <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-home"></div></div></div></div></div>
+        </article>
+        <article class="chapter" data-shot="1">
+          <h2>Every certificate, by person.</h2>
+          <p>Search an FD number, filter what is due soon, and open the slip. Sample numbers 01FD40599 and 01FD32450 are the practice receipts.</p>
+          <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-list"></div></div></div></div></div>
+        </article>
+        <article class="chapter" data-shot="2">
+          <h2>A passbook beside the deposit.</h2>
+          <p>Credits and debits sit with the member. The FD principal stays on the certificate.</p>
+          <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-book"></div></div></div></div></div>
+        </article>
+      </div>
+      <div class="story-stage">
+        <div class="phone" aria-hidden="true">
+          <div class="shell">
+            <div class="screen fd-os">
+              <div class="mframe" data-frame="0" data-mount="fd-home"></div>
+              <div class="mframe" data-frame="1" data-mount="fd-list"></div>
+              <div class="mframe" data-frame="2" data-mount="fd-book"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="foot"><span>Lalitamba FD · Gadag</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+  </main>
+
+  <main class="page" data-page="dep" hidden>
+    <section class="hero">
+      <p class="eyebrow">Phone app</p>
+      <h1>Deposits</h1>
+      <p class="lede">A custom family investment tracker for deposits, monthly interest collections, and principal withdrawals. It keeps every member’s balance and the family’s overall progress in one place.</p>
+      <ul class="features wide">
+        <li><span aria-hidden="true">💰</span><div><b>Deposits by member</b><p>Family total, and a balance for each member.</p></div></li>
+        <li><span aria-hidden="true">🔔</span><div><b>Monthly reminders</b><p>What is due next, and what is ready now.</p></div></li>
+        <li><span aria-hidden="true">📈</span><div><b>Interest recovered</b><p>Collected so far, and what is left to break even.</p></div></li>
+        <li><span aria-hidden="true">👤</span><div><b>Withdrawal records</b><p>Who took the principal, then the deposit closes.</p></div></li>
+        <li><span aria-hidden="true">📊</span><div><b>Family analytics</b><p>Invested, collected, withdrawn, and still out.</p></div></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="https://investment-tracker-khaki-nine.vercel.app" target="_blank" rel="noopener">Live app</a>
+        <a class="btn ghost" href="https://github.com/vikramam/investment-tracker" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+    <div class="phone-hero">
+      <div class="phone reel" aria-hidden="true">
+        <div class="shell">
+          <div class="screen fd-os">
+            <div class="mframe" data-mount="dep-home"></div>
+            <div class="mframe" data-mount="dep-collect"></div>
+            <div class="mframe" data-mount="dep-stats"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="handsets">
+      <p class="eyebrow">PWA</p>
+      <h2>On the phone.</h2>
+      <p class="lede">Home, what is ready to collect, and how close the family is to break-even.</p>
+      <div class="handset-row">
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-home"></div></div></div>
+          </div>
+          <figcaption>Home</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-collect"></div></div></div>
+          </div>
+          <figcaption>Collect</figcaption>
+        </figure>
+        <figure class="handset">
+          <div class="phone" aria-hidden="true">
+            <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-stats"></div></div></div>
+          </div>
+          <figcaption>Analytics</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="bands">
+      <section class="band">
+        <div class="copy reveal">
+          <h2>The family, on one card.</h2>
+          <p>Invested, interest already collected, and who has a payout ready today. Swipe the card for one person.</p>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-home"></div></div></div>
+        </div>
+      </section>
+      <section class="band flip">
+        <div class="copy reveal">
+          <h2>Collect only when it is due.</h2>
+          <p>A payout stays locked until a full month has passed. One person can mark it collected for the whole family.</p>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-collect"></div></div></div>
+        </div>
+      </section>
+      <section class="band">
+        <div class="copy reveal">
+          <h2>Break-even, from today’s book.</h2>
+          <p>Pending is what is still out. The time left assumes the balances you see now stay put.</p>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-stats"></div></div></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="story" data-pin>
+      <div class="story-copy">
+        <article class="chapter" data-shot="0">
+          <h2>The family, on one card.</h2>
+          <p>Invested, interest already collected, and who has a payout ready today. Swipe the card for one person.</p>
+          <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-home"></div></div></div></div></div>
+        </article>
+        <article class="chapter" data-shot="1">
+          <h2>Collect only when it is due.</h2>
+          <p>A payout stays locked until a full month has passed. One person can mark it collected for the whole family.</p>
+          <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-collect"></div></div></div></div></div>
+        </article>
+        <article class="chapter" data-shot="2">
+          <h2>Break-even, from today’s book.</h2>
+          <p>Pending is what is still out. The time left assumes the balances you see now stay put.</p>
+          <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-stats"></div></div></div></div></div>
+        </article>
+      </div>
+      <div class="story-stage">
+        <div class="phone" aria-hidden="true">
+          <div class="shell">
+            <div class="screen fd-os">
+              <div class="mframe" data-frame="0" data-mount="dep-home"></div>
+              <div class="mframe" data-frame="1" data-mount="dep-collect"></div>
+              <div class="mframe" data-frame="2" data-mount="dep-stats"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="foot"><span>Family Deposit Tracker</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+  </main>
+
+  <main class="page" data-page="stack" hidden>
+    <section class="hero tech-intro">
+      <p class="eyebrow">Behind the apps</p>
+      <h1>Tech Stack</h1>
+      <p class="lede">The tools, data layers, and deployment choices used across each project.</p>
+    </section>
+
+    <section class="tech-grid" aria-label="Technology used by project">
+      <article class="tech-card">
+        <div class="tech-card-head">
+          <h2>MIG Stock</h2>
+          <a href="https://github.com/vikramam/mig-stock" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <ul>
+          <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React 18, TypeScript, Vite, and React Router.</div></li>
+          <li><span aria-hidden="true">🎨</span><div><b>Interface:</b> Material UI with Emotion, responsive side and bottom navigation.</div></li>
+          <li><span aria-hidden="true">🗄️</span><div><b>Data:</b> Supabase Postgres, email/password Auth, Row Level Security, and atomic stock and sales functions.</div></li>
+          <li><span aria-hidden="true">🤖</span><div><b>AI:</b> Google Gemini powers natural-language questions through the app’s chat API.</div></li>
+          <li><span aria-hidden="true">📊</span><div><b>Documents and reports:</b> Recharts, SheetJS, jsPDF, and html2canvas.</div></li>
+          <li><span aria-hidden="true">📱</span><div><b>Delivery:</b> Installable PWA, deployed on Vercel.</div></li>
+        </ul>
+      </article>
+
+      <article class="tech-card">
+        <div class="tech-card-head">
+          <h2>Phoenix</h2>
+          <a href="https://github.com/vikramam/phoenix-gaming-zone" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <ul>
+          <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React 19, TypeScript, Vite, and React Router.</div></li>
+          <li><span aria-hidden="true">🎨</span><div><b>Interface:</b> Tailwind CSS, Radix UI primitives, Lucide icons, and responsive desktop/mobile layouts.</div></li>
+          <li><span aria-hidden="true">💾</span><div><b>Current data layer:</b> A browser store keeps sessions, timers, customers, assets, and history after refresh.</div></li>
+          <li><span aria-hidden="true">⏱️</span><div><b>Session engine:</b> Timers derive from saved start timestamps; billing applies the one-hour minimum and 30-minute increments.</div></li>
+          <li><span aria-hidden="true">📄</span><div><b>Documents:</b> jsPDF and html2canvas are included for printable or shareable output.</div></li>
+          <li><span aria-hidden="true">📱</span><div><b>Delivery:</b> Offline-capable PWA, deployed on Vercel.</div></li>
+        </ul>
+        <p class="tech-note">Supabase Auth and database schema are prepared for a later cloud cutover, but the live UI currently uses the browser store.</p>
+      </article>
+
+      <article class="tech-card">
+        <div class="tech-card-head">
+          <h2>Lalitamba</h2>
+          <a href="https://github.com/vikramam/lalitamba-fd-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <ul>
+          <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React, TypeScript, Vite, and React Router.</div></li>
+          <li><span aria-hidden="true">🎨</span><div><b>Interface:</b> Tailwind CSS, shadcn/ui, custom stroke icons, and a phone-first PWA layout.</div></li>
+          <li><span aria-hidden="true">🗄️</span><div><b>Backend:</b> Supabase Auth, Postgres, private receipt Storage, and Row Level Security.</div></li>
+          <li><span aria-hidden="true">🤖</span><div><b>OCR:</b> A Supabase Edge Function sends receipt images to Gemini and returns structured fields for review.</div></li>
+          <li><span aria-hidden="true">🔐</span><div><b>Security:</b> Receipt files stay private and the Gemini key remains inside the server-side function.</div></li>
+          <li><span aria-hidden="true">📱</span><div><b>Delivery:</b> Installable PWA, hosted on Vercel.</div></li>
+        </ul>
+      </article>
+
+      <article class="tech-card">
+        <div class="tech-card-head">
+          <h2>Deposits</h2>
+          <a href="https://github.com/vikramam/investment-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <ul>
+          <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React, TypeScript, Vite, Material UI, and React Router.</div></li>
+          <li><span aria-hidden="true">🗄️</span><div><b>Backend:</b> Supabase Postgres, shared-family Auth, and Row Level Security.</div></li>
+          <li><span aria-hidden="true">🧮</span><div><b>Ledger:</b> Pure TypeScript calculates monthly payouts and break-even progress; money stays as integer paise.</div></li>
+          <li><span aria-hidden="true">📆</span><div><b>Due dates:</b> Payout rows are generated when the app loads, avoiding a separate cron or serverless job.</div></li>
+          <li><span aria-hidden="true">📤</span><div><b>Backup:</b> SheetJS exports all ledger tables to an Excel workbook.</div></li>
+          <li><span aria-hidden="true">📱</span><div><b>Delivery:</b> Installable PWA with automatic Vercel deployments from GitHub.</div></li>
+        </ul>
+        <p class="tech-note">Analytics uses lightweight progress bars rather than a charting library.</p>
+      </article>
+    </section>
+
+    <footer class="foot"><span>Technology behind the work</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+  </main>
+
+  <main class="page" data-page="contact" hidden>
+    <section class="hero tech-intro">
+      <p class="eyebrow">Get in touch</p>
+      <h1>Contact Us</h1>
+      <p class="lede">Like the work, or want a custom app for your business? Tell me what you need. A shop tool, a family tracker, or something else — a short note is enough.</p>
+    </section>
+    <section class="contact-panel" aria-label="Ways to get in touch">
+      <a class="contact-row" href="mailto:vikramam.1993@gmail.com">
+        <span aria-hidden="true">✉️</span>
+        <div><b>Email</b><em>VIKRAMAM.1993@GMAIL.COM</em></div>
+      </a>
+      <a class="contact-row" href="https://wa.me/919036589729" target="_blank" rel="noopener">
+        <span aria-hidden="true">💬</span>
+        <div><b>WhatsApp</b><em>+91 9036589729</em></div>
+      </a>
+    </section>
+    <footer class="foot"><span>VIKRAM MULGUND</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+  </main>
+
+  <template id="tpl-px-dash">
+    <div class="ui zone">
+      <aside class="side"><strong>Phoenix</strong><span class="on">Floor</span><span>Active</span><span>History</span><span>Customers</span><span>Reports</span></aside>
+      <div class="pane arena">
+        <p class="kicker">Play · Compete · Win</p>
+        <h3 class="word">Phoenix<br>Gaming Zone</h3>
+        <div class="dash-stats">
+          <div class="stat"><span>Revenue today</span><b>₹375</b></div>
+          <div class="stat"><span>Live sessions</span><b>2</b></div>
+          <div class="stat"><span>Assets free</span><b>2</b></div>
+          <div class="stat"><span>In use</span><b>2</b></div>
+        </div>
+        <span class="chip gold">New session</span>
+      </div>
+    </div>
+  </template>
+  <template id="tpl-phone-px-dash">
+    <div class="mui zone arena">
+      <div class="mbar"><b>Floor</b><span class="menu"></span></div>
+      <div class="mbody">
+        <p class="kicker">Play · Compete · Win</p>
+        <h3 class="word">Phoenix</h3>
+        <div class="dash-stats">
+          <div class="stat"><span>Revenue today</span><b>₹375</b></div>
+          <div class="stat"><span>Live sessions</span><b>2</b></div>
+          <div class="stat"><span>Assets free</span><b>2</b></div>
+          <div class="stat"><span>In use</span><b>2</b></div>
+        </div>
+        <div class="full">New session</div>
+      </div>
+      <nav class="mtabs"><span class="on"><i></i>Floor</span><span><i></i>Active</span><span><i></i>History</span><span><i></i>Customers</span><span><i></i>More</span></nav>
+    </div>
+  </template>
+  <template id="tpl-px-floor">
+    <div class="ui zone">
+      <aside class="side"><strong>Phoenix</strong><span class="on">Floor</span><span>Active</span><span>History</span><span>Customers</span><span>Reports</span></aside>
+      <div class="pane arena">
+        <div class="pane-head"><div><p class="kicker">Play · Compete · Win</p><h3>Floor</h3></div><span class="chip gold">New session</span></div>
+        <div class="stations">
+          <div class="stat"><span>PS5 #1</span><b>00:42</b><span class="pill live">In use</span></div>
+          <div class="stat"><span>PS5 #2</span><b>PS5-002</b><span class="pill free">Available</span></div>
+          <div class="stat"><span>PS5 #3</span><b>PS5-003</b><span class="pill free">Available</span></div>
+          <div class="stat"><span>PS5 #4</span><b>01:18</b><span class="pill live">In use</span></div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="tpl-px-timer">
+    <div class="ui zone">
+      <aside class="side"><strong>Phoenix</strong><span>Floor</span><span class="on">Active</span><span>History</span><span>Customers</span><span>Reports</span></aside>
+      <div class="pane">
+        <div class="pane-head"><div><p class="kicker">PS5 #1 · Walk-in</p><h3>1 PS5</h3></div><span class="pill live">In use</span></div>
+        <p class="clock">00:42:18</p>
+        <div class="stats">
+          <div class="stat"><span>Rate</span><b>₹100/hr</b></div>
+          <div class="stat"><span>Estimate</span><b>₹100</b></div>
+        </div>
+        <div class="pane-head"><span class="kicker">+30m</span><span class="chip gold">End</span></div>
+      </div>
+    </div>
+  </template>
+  <template id="tpl-px-bill">
+    <div class="ui zone">
+      <aside class="side"><strong>Phoenix</strong><span>Floor</span><span>Active</span><span class="on">History</span><span>Customers</span><span>Reports</span></aside>
+      <div class="pane">
+        <div class="pane-head"><div><p class="kicker">End session</p><h3>Confirm bill</h3></div></div>
+        <div class="list">
+          <div class="row"><div><b>1 PS5 + 3 controllers</b><small>₹250/hr · played 1h 25m</small></div></div>
+          <div class="row"><div><b>Billed time</b><small>Minimum 1 hour, then 30 minutes</small></div><em>1h 30m</em></div>
+          <div class="row"><div><b>Total</b><small>Rounded up</small></div><em>₹375</em></div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="tpl-phone-floor">
+    <div class="mui zone arena">
+      <div class="mbar"><b>Floor</b><span class="menu"></span></div>
+      <div class="mbody">
+        <p class="kicker">Play · Compete · Win</p>
+        <div class="list">
+          <div class="row"><div><b>PS5 #1</b><small>Walk-in · 00:42</small></div><em class="pill live">In use</em></div>
+          <div class="row"><div><b>PS5 #2</b><small>PS5-002</small></div><em class="pill free">Free</em></div>
+          <div class="row"><div><b>PS5 #3</b><small>PS5-003</small></div><em class="pill free">Free</em></div>
+          <div class="row"><div><b>PS5 #4</b><small>Walk-in · 01:18</small></div><em class="pill live">In use</em></div>
+        </div>
+        <div class="full">New session</div>
+      </div>
+      <nav class="mtabs"><span class="on"><i></i>Floor</span><span><i></i>Active</span><span><i></i>History</span><span><i></i>Customers</span><span><i></i>More</span></nav>
+    </div>
+  </template>
+  <template id="tpl-phone-timer">
+    <div class="mui zone">
+      <div class="mbar"><b>Active</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div class="row"><div><b>PS5 #1</b><small>Walk-in · 1 PS5</small></div><em class="pill live">In use</em></div>
+        <p class="clock">00:42:18</p>
+        <div class="stats">
+          <div class="stat"><span>Rate</span><b>₹100/hr</b></div>
+          <div class="stat"><span>Estimate</span><b>₹100</b></div>
+        </div>
+        <div class="field"><span>Controllers</span><b>1</b></div>
+        <div class="due"><span>Snacks</span><b>₹0</b></div>
+      </div>
+      <div class="msalebar"><span class="ghost-act">+30m</span><b>₹100</b><span class="chip gold">End</span></div>
+    </div>
+  </template>
+  <template id="tpl-phone-bill">
+    <div class="mui zone">
+      <div class="mbar"><b>End session</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div class="row"><div><b>PS5 #1</b><small>Walk-in · 1 PS5 + 3 controllers</small></div></div>
+        <div class="stat"><span>Played</span><b>1h 25m</b></div>
+        <div class="stat"><span>Billed</span><b>1h 30m</b></div>
+        <div class="field"><span>Rate</span><b>₹250/hr</b></div>
+        <div class="due"><span>Rounded up</span><b>₹375</b></div>
+      </div>
+      <div class="msalebar"><span class="ghost-act">Override</span><b>₹375</b><span class="chip gold">Confirm</span></div>
+    </div>
+  </template>
+  <template id="tpl-fd-home">
+    <div class="mui fd">
+      <div class="mbar"><b>Lalitamba</b><span class="menu"></span></div>
+      <div class="mbody fd-dashboard">
+        <div class="fd-greeting">
+          <h3>Hello, Vikram</h3>
+          <p>Sample family</p>
+        </div>
+        <section class="fd-summary">
+          <img class="fd-summary-logo" src="lalitamba-logo.jpeg" alt="">
+          <div class="fd-summary-main">
+            <div class="fd-family-line">
+              <span>Sample family</span>
+              <svg class="fd-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 4.2A10.7 10.7 0 0 1 12 4c5.5 0 9 8 9 8a18 18 0 0 1-2.1 3.2M6.6 6.6C4.2 8.2 3 12 3 12s3.5 8 9 8a9 9 0 0 0 4.1-.9"/></svg>
+            </div>
+            <p class="label">Principal outstanding</p>
+            <p class="principal">₹3.50 L</p>
+            <p class="fd-due-note">1 FD is due this month</p>
+          </div>
+          <div class="fd-summary-grid">
+            <div class="fd-mini"><span class="count"></span><b>2</b><small>FDs</small></div>
+            <div class="fd-mini"><span class="count">1</span><b>₹2,450</b><small>/ month</small></div>
+            <div class="fd-mini"><span class="count">0</span><b>₹0</b><small>/ quarter</small></div>
+            <div class="fd-mini"><span class="count">1</span><b>₹1.50 L</b><small>Maturity</small></div>
+            <div class="fd-mini"><span class="count"></span><b>₹18,400</b><small>Credited</small></div>
+            <div class="fd-mini"><span class="count"></span><b>2</b><small>People</small></div>
+          </div>
+        </section>
+        <div class="fd-carousel-dots"><i></i><i></i><i></i></div>
+        <div class="fd-scope"><span>All</span><span>Asha</span><span>Ravi</span></div>
+        <div class="fd-section-head">
+          <b>Due in 90 days</b>
+          <span>View all ›</span>
+        </div>
+        <div class="list">
+          <div class="row"><div><b>01FD40599</b><small>Asha · in 18 days</small></div><em>₹2,00,000</em></div>
+          <div class="row"><div><b>01FD32450</b><small>Ravi · in 54 days</small></div><em>₹1,50,000</em></div>
+        </div>
+      </div>
+      <nav class="mtabs"><span class="on"><i></i>Home</span><span><i></i>FDs</span><span><i></i>Passbook</span><span><i></i>Members</span></nav>
+    </div>
+  </template>
+  <template id="tpl-fd-list">
+    <div class="mui fd">
+      <div class="mbar"><b>Fixed deposits</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div class="field"><span>Search FD no, name, or CID</span></div>
+        <div class="sellers"><span class="on">Current</span><span>Due soon</span></div>
+        <div class="row"><div><b>Asha</b><small>2 FDs · Sample family</small></div><em>₹3.50 L</em></div>
+        <div class="list">
+          <div class="row"><div><b>01FD40599</b><small>12 Mar · Monthly</small></div><em class="pill warn">18 days</em></div>
+          <div class="row"><div><b>01FD32450</b><small>4 Jun · On maturity</small></div><em>₹1.50 L</em></div>
+        </div>
+      </div>
+      <nav class="mtabs"><span><i></i>Home</span><span class="on"><i></i>FDs</span><span><i></i>Passbook</span><span><i></i>Members</span></nav>
+    </div>
+  </template>
+  <template id="tpl-fd-book">
+    <div class="mui fd">
+      <div class="mbar"><b>Passbooks</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div><p class="kicker">Tap a member</p><h3>Passbooks</h3></div>
+        <div class="row"><div><b>Sample family</b><small>2 passbooks</small></div><em>₹18,400</em></div>
+        <div class="list">
+          <div class="row"><div><b>Asha</b><small>A/c 0142 · Last 2 Oct</small></div><em>₹12,400</em></div>
+          <div class="row"><div><b>Ravi</b><small>No transactions</small></div><em>₹6,000</em></div>
+        </div>
+      </div>
+      <nav class="mtabs"><span><i></i>Home</span><span><i></i>FDs</span><span class="on"><i></i>Passbook</span><span><i></i>Members</span></nav>
+    </div>
+  </template>
+  <template id="tpl-dep-home">
+    <div class="mui fd">
+      <div class="mbar"><b>Home</b><span class="menu"></span></div>
+      <div class="mbody dep-dash">
+        <div>
+          <h3>Good afternoon</h3>
+          <p class="dep-date">Tuesday, 13 October</p>
+        </div>
+        <p class="dep-label">Family overview · swipe for each member</p>
+        <div class="dep-track">
+          <article class="dep-card all">
+            <div class="dep-card-top"><span class="dep-mark">F</span>All family</div>
+            <p class="dep-k">Invested</p>
+            <p class="dep-invested">Rs. 2,00,000.00</p>
+            <div class="dep-split">
+              <div><p class="dep-k">Interest</p><b>Rs. 24,000.00</b></div>
+              <div><p class="dep-k">Withdrawn</p><b>Rs. 1,00,000.00</b></div>
+            </div>
+          </article>
+          <article class="dep-card">
+            <div class="dep-card-top"><span class="dep-mark soft">C</span>Next collection</div>
+            <p class="dep-k">Visit by</p>
+            <p class="dep-invested">6 Nov</p>
+            <div class="dep-split">
+              <div><p class="dep-k">Total collectible</p><b>Rs. 2,000.00</b></div>
+            </div>
+          </article>
+        </div>
+        <div class="dep-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+        <p class="dep-label">Ready to collect</p>
+        <div class="row"><div><b>Meena</b></div><em class="money">Rs. 2,000.00</em></div>
+      </div>
+      <nav class="mtabs"><span class="on"><i></i>Home</span><span><i></i>Family</span><span><i></i>Collect</span><span><i></i>Analytics</span></nav>
+    </div>
+  </template>
+  <template id="tpl-dep-collect">
+    <div class="mui fd">
+      <div class="mbar"><b>Collections</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div class="sellers"><span class="on">Ready</span><span>Upcoming</span><span>Withdrawn</span></div>
+        <div class="row"><div><b>Meena</b><small>1 payout · Total Rs. 2,000.00</small></div></div>
+        <div class="row"><div><b>Due 6 Oct</b><small>Rs. 1,00,000.00 still out</small></div><em class="chip gold">Collect</em></div>
+        <div class="row"><div><b>Next payout 6 Nov</b><small>Same deposit</small></div><em class="pill warn">Not due yet</em></div>
+      </div>
+      <nav class="mtabs"><span><i></i>Home</span><span><i></i>Family</span><span class="on"><i></i>Collect</span><span><i></i>Analytics</span></nav>
+    </div>
+  </template>
+  <template id="tpl-dep-stats">
+    <div class="mui fd">
+      <div class="mbar"><b>Analytics</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div class="sellers"><span class="on">Family</span><span>By member</span></div>
+        <div class="stat"><span>Invested</span><b class="money">Rs. 2,00,000.00</b></div>
+        <div class="meter" aria-hidden="true"><i style="width:62%"></i></div>
+        <p class="kicker">62% recovered</p>
+        <div class="row"><div><b>Pending</b><small>To break even</small></div><em class="money">Rs. 76,000.00</em></div>
+        <div class="row"><div><b>Est. time</b><small>Balances stay as they are</small></div><em>3y 2m</em></div>
+        <div class="row"><div><b>Still earning</b><small>Rs. 1,00,000.00 at 2% a month</small></div><em class="money">Rs. 2,000.00</em></div>
+      </div>
+      <nav class="mtabs"><span><i></i>Home</span><span><i></i>Family</span><span><i></i>Collect</span><span class="on"><i></i>Analytics</span></nav>
+    </div>
+  </template>
+  <template id="tpl-phone-dash">
+    <div class="mui">
+      <div class="mbar"><b>Clamp Sales</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div><p class="kicker">Today</p><h3>Good afternoon</h3></div>
+        <div class="stat"><span>Sales today</span><b class="amt"><span class="prev">Rs. 12,480</span><span class="next">Rs. 14,160</span></b></div>
+        <div class="stats">
+          <div class="stat"><span>Pending</span><b>3</b></div>
+          <div class="stat"><span>Low stock</span><b>4</b></div>
+        </div>
+        <div class="bars" aria-hidden="true"><i style="height:38%"></i><i style="height:52%"></i><i style="height:34%"></i><i style="height:66%"></i><i style="height:44%"></i><i style="height:58%"></i><i class="on" style="height:84%"></i></div>
+        <div class="list">
+          <div class="row"><div><b>Walk-in</b><small>MIG-INV-014</small></div><em>Rs. 1,680</em></div>
+          <div class="row late"><div><b>Walk-in</b><small>MIG-INV-015</small></div><em>Rs. 1,680</em></div>
+        </div>
+      </div>
+      <nav class="mtabs"><span class="on"><i></i>Dashboard</span><span><i></i>New sale</span><span><i></i>Catalog</span><span><i></i>Reports</span><span><i></i>Inventory</span></nav>
+    </div>
+  </template>
+  <template id="tpl-phone-sale">
+    <div class="mui">
+      <div class="mbar"><b>New sale</b><span class="menu"></span></div>
+      <div class="mbody sale">
+        <div class="row"><div><b>Walk-in customer</b><small>Tap to choose customer</small></div></div>
+        <p class="kicker">Top sellers</p>
+        <div class="sellers">
+          <span class="on">Clamp · Standard<small>Size 2</small></span>
+          <span>Clamp · Heavy<small>Size 3</small></span>
+        </div>
+        <p class="kicker">Cart</p>
+        <div class="row"><div><b>Clamp · Standard</b><small>Size 2 · Rs. 420.00 each</small></div><span class="qty">2</span><em>Rs. 840</em></div>
+        <div class="row"><div><b>Clamp · Heavy</b><small>Size 3 · Rs. 260.00 each</small></div><span class="qty">1</span><em>Rs. 260</em></div>
+        <div class="field"><span>Amount paid</span><b>1,100.00</b></div>
+        <div class="full">Full amount received</div>
+        <div class="due"><span>Balance due</span><b>Rs. 0.00</b></div>
+        <div class="field"><span>Note</span><b></b></div>
+      </div>
+      <div class="msalebar"><span class="ghost-act">Discount</span><b>Rs. 1,100.00</b><span class="chip gold">Complete sale</span></div>
+    </div>
+  </template>
+  <template id="tpl-phone-stock">
+    <div class="mui">
+      <div class="mbar"><b>Inventory</b><span class="menu"></span></div>
+      <div class="mbody">
+        <div><p class="kicker">Below threshold</p><h3>Low stock</h3></div>
+        <div class="field"><span>Search product or type</span></div>
+        <div class="list">
+          <div class="row"><div><b>Clamp · Standard</b><small>Size 2 · Rs. 420.00/Pc</small></div><em class="low">2</em></div>
+          <div class="row"><div><b>Clamp · Heavy</b><small>Size 3 · Rs. 260.00/Pc</small></div><em class="low">1</em></div>
+          <div class="row"><div><b>Clamp · Light</b><small>Size 1 · Rs. 180.00/Pc</small></div><em class="low">0</em></div>
+          <div class="row"><div><b>Clamp · Wide</b><small>Size 4 · Rs. 510.00/Pc</small></div><em class="low">3</em></div>
+        </div>
+      </div>
+      <nav class="mtabs"><span><i></i>Dashboard</span><span><i></i>New sale</span><span><i></i>Catalog</span><span><i></i>Reports</span><span class="on"><i></i>Inventory</span></nav>
+    </div>
+  </template>
+  <template id="tpl-mig-dash">
+    <div class="ui">
+      <aside class="side"><strong>Clamp Sales</strong><span class="on">Dashboard</span><span>New sale</span><span>Catalog</span><span>Reports</span><span>Inventory</span></aside>
+      <div class="pane">
+        <div class="pane-head"><div><p class="kicker">Today</p><h3>Good afternoon</h3></div><span class="chip gold">New sale</span></div>
+        <div class="stats">
+          <div class="stat"><span>Sales today</span><b class="amt"><span class="prev">Rs. 12,480</span><span class="next">Rs. 14,160</span></b></div>
+          <div class="stat"><span>Pending balances</span><b>3</b></div>
+          <div class="stat"><span>Low stock items</span><b>4</b></div>
+        </div>
+        <div class="bars" aria-hidden="true"><i style="height:38%"></i><i style="height:52%"></i><i style="height:34%"></i><i style="height:66%"></i><i style="height:44%"></i><i style="height:58%"></i><i class="on" style="height:84%"></i></div>
+        <div class="list">
+          <div class="row"><div><b>Walk-in customer</b><small>MIG-INV-014 · 12m ago</small></div><em>Rs. 1,680.00</em></div>
+          <div class="row late"><div><b>Walk-in customer</b><small>MIG-INV-015 · Just now</small></div><em>Rs. 1,680.00</em></div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="tpl-mig-sale">
+    <div class="ui">
+      <aside class="side"><strong>Clamp Sales</strong><span>Dashboard</span><span class="on">New sale</span><span>Catalog</span><span>Reports</span><span>Inventory</span></aside>
+      <div class="pane">
+        <div class="pane-head"><div><p class="kicker">Sale</p><h3>New sale</h3></div></div>
+        <div class="list">
+          <div class="row"><div><b>Walk-in customer</b><small>Tap to choose customer</small></div></div>
+          <div class="row"><div><b>Clamp · Standard</b><small>Size 2 · Rs. 420.00 each</small></div><span class="qty">2</span><em>Rs. 840.00</em></div>
+        </div>
+        <div class="pane-head" style="margin-top:auto">
+          <span class="kicker">Discount</span>
+          <span class="chip gold">Complete sale</span>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="tpl-mig-stock">
+    <div class="ui">
+      <aside class="side"><strong>Clamp Sales</strong><span>Dashboard</span><span>New sale</span><span>Catalog</span><span>Reports</span><span class="on">Inventory</span></aside>
+      <div class="pane">
+        <div class="pane-head"><div><p class="kicker">Inventory</p><h3>Low stock</h3></div></div>
+        <div class="search"><span>Below threshold</span></div>
+        <div class="list">
+          <div class="row"><div><b>Clamp · Standard</b><small>Size 2 · Rs. 420.00/Pc</small></div><em class="low">2 in stock</em></div>
+          <div class="row"><div><b>Clamp · Heavy</b><small>Size 3 · Rs. 260.00/Pc</small></div><em class="low">1 in stock</em></div>
+          <div class="row late"><div><b>Clamp · Light</b><small>Size 1 · Rs. 180.00/Pc</small></div><em class="low">0 in stock</em></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const pages = [...document.querySelectorAll("[data-page]")];
+    const mounts = {
+      "mig-dash": "tpl-mig-dash",
+      "mig-sale": "tpl-mig-sale",
+      "mig-stock": "tpl-mig-stock",
+      "phone-dash": "tpl-phone-dash",
+      "phone-sale": "tpl-phone-sale",
+      "phone-stock": "tpl-phone-stock",
+      "px-dash": "tpl-px-dash",
+      "px-floor": "tpl-px-floor",
+      "phone-px-dash": "tpl-phone-px-dash",
+      "px-timer": "tpl-px-timer",
+      "px-bill": "tpl-px-bill",
+      "phone-floor": "tpl-phone-floor",
+      "phone-timer": "tpl-phone-timer",
+      "phone-bill": "tpl-phone-bill",
+      "fd-home": "tpl-fd-home",
+      "fd-list": "tpl-fd-list",
+      "fd-book": "tpl-fd-book",
+      "dep-home": "tpl-dep-home",
+      "dep-collect": "tpl-dep-collect",
+      "dep-stats": "tpl-dep-stats"
+    };
+
+    const tabIcons = {
+      Home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+      Dashboard: '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
+      "New sale": '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+      Catalog: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+      Reports: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+      Analytics: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+      Inventory: '<path d="m21 8-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>',
+      Floor: '<rect x="2" y="7" width="20" height="11" rx="5.5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1"/><circle cx="18" cy="13.5" r="1"/>',
+      Active: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>',
+      History: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/>',
+      Customers: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/>',
+      Members: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/>',
+      Family: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/>',
+      More: '<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>',
+      FDs: '<path d="M3 10h18L12 4 3 10z"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/>',
+      Passbook: '<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v16H5.5A1.5 1.5 0 0 0 4 20.5z"/><path d="M4 20.5A1.5 1.5 0 0 0 5.5 22H20v-3"/><path d="M8 7h8M8 11h6"/>',
+      Collect: '<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M16 15h2"/><path d="M6 6V4h12v2"/>'
+    };
+
+    function fillTabIcons(root) {
+      root.querySelectorAll(".mtabs span").forEach((tab) => {
+        const slot = tab.querySelector("i");
+        const paths = tabIcons[tab.textContent.trim()];
+        if (!slot || !paths) return;
+        slot.outerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + "</svg>";
+      });
+    }
+
+    function fillMounts(root) {
+      root.querySelectorAll("[data-mount]").forEach((node) => {
+        if (node.dataset.filled === "1") return;
+        const id = mounts[node.dataset.mount];
+        const tpl = document.getElementById(id);
+        if (!tpl) return;
+        node.appendChild(tpl.content.cloneNode(true));
+        fillTabIcons(node);
+        node.dataset.filled = "1";
+      });
+    }
+
+    function show(page) {
+      if (!pages.some((p) => p.dataset.page === page)) page = "home";
+      pages.forEach((p) => { p.hidden = p.dataset.page !== page; });
+      const active = pages.find((p) => p.dataset.page === page);
+      fillMounts(active);
+      const nextHash = "#" + page;
+      if (location.hash !== nextHash) history.replaceState(null, "", location.pathname + location.search + nextHash);
+      window.scrollTo(0, 0);
+      active.querySelectorAll("[data-pin]").forEach((pin) => updatePin(pin));
+    }
+
+    function setProto(name) {
+      document.body.dataset.proto = name;
+      document.querySelectorAll("[data-proto-btn]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn.dataset.protoBtn === name));
+      });
+      document.querySelectorAll("[data-pin]").forEach((pin) => updatePin(pin));
+    }
+
+    function updatePin(pin) {
+      const chapters = [...pin.querySelectorAll(".chapter")];
+      const mid = window.innerHeight * 0.5;
+      let active = 0;
+      chapters.forEach((chapter, index) => {
+        if (chapter.getBoundingClientRect().top < mid) active = index;
+      });
+      pin.querySelectorAll("[data-frame]").forEach((frame) => {
+        frame.hidden = Number(frame.dataset.frame) !== active;
+      });
+    }
+
+    document.body.addEventListener("click", (event) => {
+      const go = event.target.closest("[data-go]");
+      if (go) {
+        event.preventDefault();
+        show(go.dataset.go);
+        return;
+      }
+      const proto = event.target.closest("[data-proto-btn]");
+      if (proto) setProto(proto.dataset.protoBtn);
+    });
+
+    document.addEventListener("scroll", () => {
+      if (document.body.dataset.proto !== "noir") return;
+      document.querySelectorAll("[data-pin]").forEach((pin) => {
+        if (pin.closest("[hidden]")) return;
+        updatePin(pin);
+      });
+    }, { passive: true });
+
+    const phoneStatus = '<div class="status"><span class="time">9:41</span><span class="sys"><svg viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx=".6"/><rect x="4.5" y="4.5" width="3" height="7.5" rx=".6"/><rect x="9" y="2" width="3" height="10" rx=".6"/><rect x="13.5" y="0" width="3" height="12" rx=".6"/></svg><svg viewBox="0 0 16 12" fill="currentColor"><path d="M8 9.15a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/><path d="M4.55 7.15a4.9 4.9 0 0 1 6.9 0l-.95.95a3.5 3.5 0 0 0-5 0l-.95-.95z"/><path d="M2.15 4.8a8.1 8.1 0 0 1 11.7 0l-.95.95a6.7 6.7 0 0 0-9.8 0l-.95-.95z"/></svg><svg viewBox="0 0 28 13"><rect x=".8" y=".8" width="22.4" height="11.4" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2.3" y="2.3" width="17.2" height="8.4" rx="1.2" fill="currentColor"/><path d="M24.6 4.3v4.4c.8-.4 1.4-1.2 1.4-2.2s-.6-1.8-1.4-2.2z" fill="currentColor"/></svg></span></div>';
+    document.querySelectorAll(".phone").forEach((phone) => {
+      const screen = phone.querySelector(".screen");
+      screen.insertAdjacentHTML("afterbegin", phoneStatus);
+      screen.insertAdjacentHTML("beforeend", '<span class="home-bar"></span>');
+      const frameSrc = phone.classList.contains("s24") ? "hd_s24_ultra.png" : "hd_iphone_frame.png";
+      phone.insertAdjacentHTML("beforeend", '<img class="frame" src="' + frameSrc + '" alt="">');
+    });
+
+    document.getElementById("mig-hero-screen").appendChild(document.getElementById("tpl-mig-dash").content.cloneNode(true));
+
+    const homeMotion = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("inview");
+        homeMotion.unobserve(entry.target);
+      });
+    }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
+    document.querySelectorAll('[data-page="home"] .showcase, [data-page="home"] .foot').forEach((el) => homeMotion.observe(el));
+
+    const params = new URLSearchParams(location.search);
+    setProto(params.get("proto") === "noir" ? "noir" : "airy");
+    const start = params.get("page") || (location.hash || "#home").slice(1);
+    show(start);
+    if (params.get("shot") === "bands") {
+      document.querySelectorAll(".hero").forEach((el) => { el.hidden = true; });
+      document.querySelectorAll("[data-page]:not([hidden]) > .device, [data-page]:not([hidden]) > .pair").forEach((el) => { el.hidden = true; });
+    }
+  </script>
+</body>
+</html>
