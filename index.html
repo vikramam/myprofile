@@ -3,56 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vikram — apps I’ve built</title>
-  <meta name="description" content="Four web apps by Vikram: sales and stock, a PS5 gaming lounge, family fixed deposits, and family lending. Each is live and installs on a phone.">
+  <title>Vikram Mulgund — Apps Built for Real Work</title>
+  <meta name="description" content="Four production web apps by Vikram Mulgund: sales and stock, a PS5 gaming lounge, family fixed deposits, and family lending. Live on the web and installable as PWAs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5f5f7;
-      --ink: #1d1d1f;
-      --muted: #6e6e73;
-      --line: rgba(0, 0, 0, 0.12);
-      --fill: #1d1d1f;
-      --fill-ink: #f5f5f7;
-      --stage: #e8e8ed;
-      --stage-2: #fbfbfd;
+      --bg: #f6f6f9;
+      --bg-elevated: rgba(255, 255, 255, 0.86);
+      --ink: #111113;
+      --muted: #636369;
+      --line: rgba(0, 0, 0, 0.09);
+      --line-strong: rgba(0, 0, 0, 0.16);
+      --fill: #111113;
+      --fill-ink: #ffffff;
+      --stage: #ececf1;
+      --stage-2: #ffffff;
+      --card-bg: #ffffff;
       --device: #1d1d1f;
       --url: #2c2c2e;
       --url-ink: #a1a1a6;
-      --hinge: #d2d2d7;
       --ui: #f7f7f5;
       --ui-ink: #1d1d1f;
       --ui-muted: #6e6e73;
       --ui-line: rgba(0, 0, 0, 0.08);
       --ui-card: #ffffff;
-      --accent: #0a66c2;
-      --bar: #1d1d1f;
-      --bar-ink: #f5f5f7;
-      --shadow-soft: none;
+      --accent: #0066cc;
+      --accent-soft: rgba(0, 102, 204, 0.1);
+      --gold: #c97a2b;
+      --shadow-card: 0 20px 50px -12px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.06);
+      --shadow-device: 0 28px 60px -15px rgba(0, 0, 0, 0.22);
+      --glow-mig: radial-gradient(circle at 75% 30%, rgba(201, 122, 43, 0.14), transparent 55%);
+      --glow-px: radial-gradient(circle at 75% 30%, rgba(35, 136, 237, 0.15), transparent 55%);
+      --glow-fd: radial-gradient(circle at 75% 30%, rgba(217, 130, 43, 0.14), transparent 55%);
+      --glow-dep: radial-gradient(circle at 75% 30%, rgba(16, 185, 129, 0.12), transparent 55%);
     }
 
     body[data-proto="noir"] {
       color-scheme: dark;
-      --bg: #000000;
+      --bg: #070709;
+      --bg-elevated: rgba(18, 18, 22, 0.82);
       --ink: #f5f5f7;
-      --muted: #a1a1a6;
-      --line: rgba(255, 255, 255, 0.16);
+      --muted: #9898a0;
+      --line: rgba(255, 255, 255, 0.1);
+      --line-strong: rgba(255, 255, 255, 0.2);
       --fill: #f5f5f7;
-      --fill-ink: #000000;
-      --stage: #0a0a0a;
-      --stage-2: #111113;
+      --fill-ink: #09090b;
+      --stage: #0d0d11;
+      --stage-2: #121217;
+      --card-bg: #131318;
       --device: #1c1c1e;
       --url: #2c2c2e;
       --url-ink: #a1a1a6;
-      --hinge: #2c2c2e;
       --ui: #f4f4f2;
       --ui-ink: #1d1d1f;
       --ui-muted: #6e6e73;
       --ui-line: rgba(0, 0, 0, 0.08);
       --ui-card: #ffffff;
       --accent: #4da3ff;
-      --bar: #0a0a0a;
-      --bar-ink: #f5f5f7;
+      --accent-soft: rgba(77, 163, 255, 0.14);
+      --shadow-card: 0 24px 60px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.09);
+      --shadow-device: 0 32px 70px -12px rgba(0, 0, 0, 0.75);
+      --glow-mig: radial-gradient(circle at 75% 35%, rgba(201, 122, 43, 0.22), transparent 58%);
+      --glow-px: radial-gradient(circle at 75% 35%, rgba(35, 136, 237, 0.24), transparent 58%);
+      --glow-fd: radial-gradient(circle at 75% 35%, rgba(224, 164, 97, 0.2), transparent 58%);
+      --glow-dep: radial-gradient(circle at 75% 35%, rgba(201, 122, 43, 0.18), transparent 58%);
     }
 
     * { box-sizing: border-box; }
@@ -62,117 +79,198 @@
       margin: 0;
       background: var(--bg);
       color: var(--ink);
-      font-family: "Segoe UI", sans-serif;
-      font-size: 17px;
-      line-height: 1.5;
-      letter-spacing: -0.011em;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      letter-spacing: -0.014em;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-    button, a { font: inherit; color: inherit; }
+    button, a, input, textarea { font: inherit; color: inherit; }
     button { cursor: pointer; }
     :focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 3px;
     }
 
-    .proto-bar {
+    /* Unified Floating Navigation Header */
+    .site-header {
       position: sticky;
-      top: 0;
-      z-index: 40;
+      top: 14px;
+      z-index: 50;
+      width: min(1180px, calc(100% - 32px));
+      margin: 14px auto 0;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 16px;
-      min-height: 44px;
-      padding: 8px 20px;
-      background: var(--bar);
-      color: var(--bar-ink);
-      font-size: 13px;
+      padding: 8px 12px 8px 18px;
+      border-radius: 999px;
+      background: var(--bg-elevated);
+      backdrop-filter: saturate(190%) blur(20px);
+      -webkit-backdrop-filter: saturate(190%) blur(20px);
+      box-shadow: var(--shadow-card);
     }
-    .proto-bar strong { font-weight: 600; }
-    .proto-bar .note { color: #a1a1a6; }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .wordmark {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      font-weight: 750;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-apps, .nav-more {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-more {
+      margin-left: 6px;
+      padding-left: 10px;
+      border-left: 1px solid var(--line);
+    }
+    .text-btn {
+      border: 0;
+      background: transparent;
+      padding: 7px 13px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 550;
+      font-size: 13.5px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .text-btn:hover {
+      color: var(--ink);
+      background: var(--line);
+    }
+    .text-btn.active {
+      background: var(--fill);
+      color: var(--fill-ink);
+      font-weight: 600;
+    }
+
     .switch {
-      margin-left: auto;
       display: flex;
       padding: 3px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--line);
+      border: 1px solid var(--line);
     }
     .switch button {
       border: 0;
       background: transparent;
-      color: #d2d2d7;
+      color: var(--muted);
       border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 13px;
+      padding: 5px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
     }
     .switch button[aria-pressed="true"] {
-      background: #f5f5f7;
-      color: #1d1d1f;
+      background: var(--card-bg);
+      color: var(--ink);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
 
-    .nav {
-      position: sticky;
-      top: 44px;
-      z-index: 30;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 52px;
-      padding: 0 28px;
-      background: color-mix(in srgb, var(--bg) 86%, transparent);
-      backdrop-filter: saturate(180%) blur(16px);
-      border-bottom: 1px solid transparent;
-    }
-    .wordmark, .text-btn {
-      border: 0;
-      background: transparent;
-      padding: 0;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
-    .wordmark {
-      font-size: 14px;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-    .text-btn { color: var(--muted); font-weight: 500; font-size: 14px; }
-    .nav-links { display: flex; align-items: center; gap: 28px; }
-    .nav-apps, .nav-more { display: flex; align-items: center; gap: 22px; }
-    .nav-more {
-      padding-left: 28px;
-      border-left: 1px solid var(--line);
-    }
-
+    /* Hero Section */
     .page { display: block; }
     .hero {
-      padding: 72px 28px 24px;
+      padding: 64px 24px 44px;
       text-align: center;
+      max-width: 980px;
+      margin: 0 auto;
     }
-    .eyebrow {
-      margin: 0 0 12px;
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--stage);
+      box-shadow: inset 0 0 0 1px var(--line);
       color: var(--muted);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
     h1 {
       margin: 0 auto;
-      max-width: min(14ch, 100%);
-      font-size: clamp(56px, 8vw, 104px);
-      line-height: 0.94;
+      max-width: 15ch;
+      font-size: clamp(44px, 6.8vw, 84px);
+      line-height: 0.96;
       letter-spacing: -0.045em;
-      font-weight: 600;
+      font-weight: 750;
     }
     .lede {
       margin: 20px auto 0;
-      max-width: 36rem;
+      max-width: 40rem;
       color: var(--muted);
-      font-size: 21px;
-      line-height: 1.4;
+      font-size: clamp(16.5px, 1.9vw, 19.5px);
+      line-height: 1.5;
     }
+
+    /* Quick App Pills inside Home Hero */
+    .hero-dock {
+      margin: 34px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .dock-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--card-bg);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      font-size: 13.5px;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .dock-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    .dock-pill small {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 12px;
+      padding-left: 8px;
+      border-left: 1px solid var(--line);
+    }
+
     .actions {
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 12px;
       margin-top: 28px;
     }
@@ -180,285 +278,212 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       height: 44px;
-      padding: 0 20px;
+      padding: 0 22px;
       border-radius: 980px;
       border: 0;
       background: var(--fill);
       color: var(--fill-ink);
       text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 14.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform 0.18s ease, opacity 0.18s ease;
     }
+    .btn:hover { transform: translateY(-1px); opacity: 0.92; }
     .btn.ghost {
-      background: transparent;
+      background: var(--card-bg);
       color: var(--ink);
-      box-shadow: inset 0 0 0 1px var(--line);
+      box-shadow: inset 0 0 0 1px var(--line-strong);
+    }
+    .btn.whatsapp {
+      background: #16a34a;
+      color: #ffffff;
     }
 
-    .showcase {
-      display: grid;
-      grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
-      gap: 48px;
-      align-items: center;
-      padding: 72px 7vw 88px;
+    /* Bento Showcase Cards on Home */
+    .showcase-wrap {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
     }
-    .showcase .device { width: min(620px, 100%); }
-    .showcase:nth-of-type(even) { background: var(--stage); }
-    .showcase:nth-of-type(odd) { background: var(--stage-2); }
+    .showcase {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(280px, 0.82fr) minmax(320px, 1.18fr);
+      gap: 44px;
+      align-items: center;
+      padding: 56px 52px;
+      border-radius: 32px;
+      background: var(--stage-2);
+      box-shadow: var(--shadow-card);
+    }
+    .showcase[data-theme="mig"] { background-image: var(--glow-mig); }
+    .showcase[data-theme="px"] { background-image: var(--glow-px); }
+    .showcase[data-theme="fd"] { background-image: var(--glow-fd); }
+    .showcase[data-theme="dep"] { background-image: var(--glow-dep); }
+
+    .showcase-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .eyebrow {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      font-size: 11px;
+      font-weight: 650;
+    }
     .showcase h2 {
       margin: 0;
-      font-size: clamp(48px, 6vw, 80px);
-      line-height: 0.96;
-      letter-spacing: -0.045em;
-      font-weight: 600;
+      font-size: clamp(38px, 4.8vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      font-weight: 750;
     }
-    .showcase p { color: var(--muted); font-size: 21px; max-width: 28ch; }
-    .showcase .btn { margin-top: 8px; }
-    .linkish {
+    .showcase > div:first-child > p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 17.5px;
+      line-height: 1.5;
+      max-width: 34ch;
+    }
+    .showcase-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    /* Interactive Screen Switcher Pills */
+    .stage-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+    }
+    .screen-pills {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 999px;
+      background: var(--stage);
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .screen-pills button {
       border: 0;
       background: transparent;
-      padding: 0;
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .band {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      padding: 100px 8vw;
-    }
-    .band:nth-child(even) { background: var(--stage); }
-    .band.flip .copy { order: 2; }
-    .band h2, .chapter h2 {
-      margin: 0 0 12px;
-      font-size: clamp(36px, 4vw, 56px);
-      line-height: 1.02;
-      letter-spacing: -0.04em;
-      font-weight: 600;
-    }
-    .band p, .chapter p { margin: 0; color: var(--muted); font-size: 19px; max-width: 36ch; }
-
-    .close {
-      padding: 100px 28px 80px;
-      text-align: center;
-    }
-    .close h2 {
-      margin: 0 auto 8px;
-      font-size: clamp(40px, 5vw, 64px);
-      letter-spacing: -0.04em;
-      line-height: 1;
-      font-weight: 600;
-    }
-    .foot {
-      padding: 28px;
       color: var(--muted);
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      border-top: 1px solid var(--line);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .screen-pills button.on {
+      background: var(--card-bg);
+      color: var(--ink);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      animation: rise-in 0.8s ease forwards;
-    }
-    @keyframes rise-in { to { opacity: 1; transform: none; } }
-
-    [data-page="home"] .hero > *,
-    [data-page="home"] .showcase > div:first-child > *,
-    [data-page="home"] .showcase .pair > *,
-    [data-page="home"] .foot {
-      opacity: 0;
-      transform: translateY(22px);
-    }
-    [data-page="home"] .hero > * {
-      animation: rise-in 0.85s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
-    }
-    [data-page="home"] .hero > :nth-child(2) { animation-delay: 0.1s; }
-    [data-page="home"] .hero > :nth-child(3) { animation-delay: 0.2s; }
-    [data-page="home"] .showcase.inview > div:first-child > *,
-    [data-page="home"] .showcase.inview .pair > *,
-    [data-page="home"] .foot.inview {
-      animation: rise-in 0.85s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
-    }
-    [data-page="home"] .showcase.inview > div:first-child > :nth-child(2) { animation-delay: 0.08s; }
-    [data-page="home"] .showcase.inview > div:first-child > :nth-child(3) { animation-delay: 0.16s; }
-    [data-page="home"] .showcase.inview > div:first-child > :nth-child(4) { animation-delay: 0.24s; }
-    [data-page="home"] .showcase.inview > div:first-child > :nth-child(5) { animation-delay: 0.32s; }
     .features {
       list-style: none;
-      margin: 18px 0 26px;
+      margin: 20px 0 24px;
       padding: 0;
       display: grid;
-      gap: 9px;
+      gap: 10px;
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.4;
+      font-size: 15px;
+      line-height: 1.45;
     }
-    .features li { display: flex; align-items: flex-start; gap: 10px; }
-    .features li > span { flex: none; width: 1.4em; font-size: 1.1em; line-height: 1.3; text-align: center; }
+    .features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .features li > span {
+      flex: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--stage);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+
+    /* Wide Feature Cards on App Detail Pages */
     .features.wide {
-      width: min(1040px, 100%);
-      max-width: none;
-      margin: 40px auto 8px;
+      width: min(1100px, 100%);
+      margin: 36px auto 8px;
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 0;
+      gap: 12px;
       text-align: left;
-      border: 0;
-      font-size: 16px;
     }
     .features.wide:has(> li:nth-child(4):last-child) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
     .features.wide li {
-      display: block;
-      min-height: 0;
-      padding: 2px 14px;
-      border-radius: 0;
-      background: none;
-      box-shadow: none;
-      border-left: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 18px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      box-shadow: var(--shadow-card);
     }
-    .features.wide li:first-child { border-left: 0; padding-left: 2px; }
     .features.wide li > span {
-      width: auto;
-      height: auto;
-      display: block;
-      border-radius: 0;
-      background: none;
-      box-shadow: none;
-      font-size: 18px;
-      line-height: 1;
-      text-align: left;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--stage);
+      font-size: 17px;
     }
-    .features.wide li div { display: block; }
     .features.wide b {
       display: block;
-      margin: 8px 0 4px;
+      margin: 2px 0 3px;
       color: var(--ink);
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 650;
       letter-spacing: -0.02em;
-      line-height: 1.2;
     }
     .features.wide p {
       margin: 0;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.35;
-    }
-    .tech-intro { padding-bottom: 42px; }
-    .tech-grid {
-      width: min(1120px, calc(100% - 40px));
-      margin: 0 auto 88px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-    .tech-card {
-      padding: 28px;
-      border-radius: 24px;
-      background: var(--stage-2);
-      box-shadow: inset 0 0 0 1px var(--line);
-    }
-    .tech-card-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--line);
-    }
-    .tech-card h2 {
-      margin: 0;
-      font-size: clamp(28px, 3vw, 40px);
-      line-height: 1;
-      letter-spacing: -0.04em;
-      font-weight: 600;
-    }
-    .tech-card-head a {
-      flex: none;
-      color: var(--muted);
-      font-size: 13px;
-      text-decoration: none;
-    }
-    .tech-card ul {
-      list-style: none;
-      margin: 18px 0 0;
-      padding: 0;
-      display: grid;
-      gap: 13px;
-    }
-    .tech-card li {
-      display: grid;
-      grid-template-columns: 1.5rem minmax(0, 1fr);
-      gap: 9px;
-      color: var(--muted);
-      font-size: 15px;
       line-height: 1.4;
     }
-    .tech-card li span { text-align: center; }
-    .tech-card li b { color: var(--ink); font-weight: 600; }
-    .tech-card .tech-note {
-      margin: 18px 0 0;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-    .contact-panel {
-      width: min(720px, calc(100% - 40px));
-      margin: 0 auto 88px;
-      display: grid;
-      gap: 12px;
-    }
-    .contact-row {
-      display: grid;
-      grid-template-columns: 2rem minmax(0, 1fr);
-      gap: 14px;
-      align-items: center;
-      padding: 22px 24px;
-      border-radius: 22px;
-      background: var(--stage-2);
-      box-shadow: inset 0 0 0 1px var(--line);
-      color: inherit;
-      text-decoration: none;
-    }
-    .contact-row > span { font-size: 22px; line-height: 1; text-align: center; }
-    .contact-row b {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .contact-row em {
-      display: block;
-      margin-top: 4px;
-      color: var(--ink);
-      font-style: normal;
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      overflow-wrap: anywhere;
-    }
-    [data-page="home"] .showcase.inview .pair > :nth-child(1) { animation-delay: 0.12s; }
-    [data-page="home"] .showcase.inview .pair > :nth-child(2) { animation-delay: 0.22s; }
 
+    /* Hardware Mockup Containers */
     .device {
       position: relative;
       width: min(640px, 100%);
       aspect-ratio: 800 / 488;
       margin-inline: auto;
       background: url("hd_macbook.png") center / 100% 100% no-repeat;
+      filter: drop-shadow(0 24px 36px rgba(0, 0, 0, 0.18));
     }
     .device.small { width: min(520px, 100%); }
     .bezel {
@@ -489,15 +514,18 @@
       border-radius: 50%;
       background: #3a3a3c;
     }
+    .dot:nth-child(1) { background: #ff5f56; }
+    .dot:nth-child(2) { background: #ffbd2e; }
+    .dot:nth-child(3) { background: #27c93f; }
     .url {
       margin-left: 8px;
       flex: 1;
       min-width: 0;
-      height: 18px;
-      border-radius: 6px;
+      height: 17px;
+      border-radius: 5px;
       background: var(--url);
       color: var(--url-ink);
-      font-size: 11px;
+      font-size: 10.5px;
       display: flex;
       align-items: center;
       padding: 0 8px;
@@ -517,6 +545,7 @@
     }
     .hinge { display: none; }
 
+    /* Inner Mocked App Screens */
     .ui {
       position: absolute;
       top: 0;
@@ -540,7 +569,7 @@
     }
     .side strong { font-size: 14px; }
     .side span { color: var(--ui-muted); padding: 6px 8px; border-radius: 8px; }
-    .side span.on { background: #fff; color: var(--ui-ink); }
+    .side span.on { background: #fff; color: var(--ui-ink); font-weight: 600; }
     .pane { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
     .pane-head, .row, .stats { display: flex; align-items: center; }
     .pane-head { justify-content: space-between; }
@@ -553,6 +582,7 @@
       border-radius: 999px;
       padding: 6px 10px;
       font-size: 11px;
+      font-weight: 600;
     }
     .stats { gap: 8px; }
     .stat {
@@ -574,60 +604,12 @@
       padding: 8px 10px;
       box-shadow: inset 0 0 0 1px var(--ui-line);
     }
-    .avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #d9e6f5;
-      flex: none;
-    }
     .row div { display: flex; flex-direction: column; }
     .row small { color: var(--ui-muted); }
     .row em { margin-left: auto; font-style: normal; font-weight: 600; }
     .shot { position: absolute; inset: 0; }
     .shot[hidden] { display: none !important; }
 
-    .pop {
-      margin: auto;
-      width: min(280px, 80%);
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      text-align: center;
-      box-shadow: inset 0 0 0 1px var(--ui-line);
-    }
-    .pop b { display: block; font-size: 20px; letter-spacing: -0.03em; margin: 8px 0; }
-    .check {
-      width: 36px;
-      height: 36px;
-      margin: 0 auto;
-      border-radius: 50%;
-      background: #e7f6ec;
-      color: #137333;
-      display: grid;
-      place-items: center;
-      font-weight: 700;
-    }
-    .share {
-      align-self: center;
-      margin-top: 28px;
-      width: min(360px, 86%);
-      background: white;
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: inset 0 0 0 1px var(--ui-line);
-    }
-    .share code {
-      display: block;
-      margin-top: 8px;
-      background: #f3f3f1;
-      border-radius: 8px;
-      padding: 10px;
-      font-family: ui-monospace, Consolas, monospace;
-      font-size: 12px;
-    }
-
-    .notes { grid-template-columns: 1fr; }
     .search {
       margin: 14px 14px 0;
       height: 34px;
@@ -640,46 +622,13 @@
       gap: 8px;
       color: var(--ui-muted);
     }
-    .caret {
-      display: inline-block;
-      width: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      color: var(--ui-ink);
-      border-right: 1px solid var(--ui-ink);
-      animation: typing 8s steps(16, end) infinite;
-    }
-    @keyframes typing {
-      0%, 8% { width: 0; }
-      42%, 78% { width: 16ch; }
-      100% { width: 0; }
-    }
-    .hits { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
-    .hit {
-      background: white;
-      border-radius: 12px;
-      padding: 10px 12px;
-      box-shadow: inset 0 0 0 1px var(--ui-line);
-    }
-    .hit b { display: block; }
-    .hit span { color: var(--ui-muted); font-size: 11px; }
-    .hit.late, .row.late {
-      animation: fade-row 8s infinite;
-    }
+    .hit.late, .row.late { animation: fade-row 8s infinite; }
     @keyframes fade-row {
       0%, 38% { opacity: 0; transform: translateY(6px); }
       52%, 84% { opacity: 1; transform: none; }
       100% { opacity: 0; }
     }
     .amt .next { animation: fade-row 8s infinite; }
-    .pin {
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-      background: var(--accent);
-      display: inline-block;
-      margin-right: 6px;
-    }
     .chip.gold { background: #c97a2b; }
     .bars {
       display: flex;
@@ -710,27 +659,29 @@
     }
     .low { color: #b42318; font-weight: 600; }
 
+    /* Phone & Pair Layouts */
     .pair {
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: 28px;
+      gap: 24px;
+      width: 100%;
     }
     .hero-pair {
       max-width: 1080px;
-      margin: 0 auto 72px;
+      margin: 12px auto 64px;
       padding-inline: 24px;
     }
-    .hero-pair .device { width: min(520px, calc(100% - 270px)); min-width: 0; }
-    .showcase .pair { gap: 16px; justify-content: flex-end; }
+    .hero-pair .device { width: min(540px, calc(100% - 260px)); min-width: 0; }
+    .showcase .pair { gap: 16px; justify-content: center; }
     .showcase .pair .device {
       width: auto;
       flex: 1 1 auto;
       min-width: 0;
-      max-width: calc(100% - 192px);
+      max-width: calc(100% - 190px);
     }
     .showcase:has(.pair .device) {
-      grid-template-columns: minmax(260px, 0.65fr) minmax(320px, 1.35fr);
+      grid-template-columns: minmax(260px, 0.68fr) minmax(320px, 1.32fr);
       gap: 32px;
     }
     .showcase .pair .phone { width: 176px; }
@@ -740,6 +691,7 @@
       flex: none;
       aspect-ratio: 388 / 800;
       container-type: inline-size;
+      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.22));
     }
     .shell { position: absolute; inset: 0; }
     .phone .screen {
@@ -752,7 +704,6 @@
       border-radius: 13.04% / 6.15%;
       overflow: hidden;
       background: var(--ui);
-      box-shadow: none;
       z-index: 1;
       container-type: inline-size;
     }
@@ -764,7 +715,7 @@
       height: 96.5%;
       border-radius: 1.11% / 0.52%;
     }
-    .showcase .pair.phones { justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .showcase .pair.phones { justify-content: center; gap: 22px; flex-wrap: wrap; }
     .frame {
       position: absolute;
       inset: 0;
@@ -800,18 +751,6 @@
       gap: 1cqw;
     }
     .sys svg { display: block; height: 4.4cqw; width: auto; }
-    .island {
-      position: absolute;
-      z-index: 6;
-      top: 2.5cqw;
-      left: 50%;
-      width: 31cqw;
-      height: 9.2cqw;
-      margin-left: -15.5cqw;
-      border-radius: 999px;
-      background: #000;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-    }
     .home-bar {
       position: absolute;
       z-index: 7;
@@ -824,10 +763,13 @@
       background: #111;
       pointer-events: none;
     }
-    .mframe { position: absolute; left: 0; right: 0; top: 13.5cqw; bottom: 0; }
+    .mframe { position: absolute; left: 0; right: 0; top: 13.5cqw; bottom: 0; transition: opacity 0.35s ease; }
     .reel .mframe { opacity: 0; animation: reel 12s infinite; }
-    .reel .mframe:nth-child(2 of .mframe) { animation-delay: -4s; }
-    .reel .mframe:nth-child(3 of .mframe) { animation-delay: -8s; }
+    .reel .mframe:nth-child(2 of .mframe) { animation-delay: -8s; }
+    .reel .mframe:nth-child(3 of .mframe) { animation-delay: -4s; }
+    .reel.manual .mframe { animation: none; opacity: 0; pointer-events: none; }
+    .reel.manual .mframe.active-frame { opacity: 1; pointer-events: auto; }
+
     @keyframes reel {
       0%, 28% { opacity: 1; }
       34%, 100% { opacity: 0; }
@@ -937,11 +879,7 @@
     .reel .mtabs svg { width: 17px; height: 17px; }
     .showcase .mtabs { padding-bottom: 12cqw; }
     .mtabs span.on { color: #c97a2b; font-weight: 700; }
-    .mtabs svg {
-      width: 13px;
-      height: 13px;
-      flex: none;
-    }
+    .mtabs svg { width: 13px; height: 13px; flex: none; }
     .msalebar {
       display: flex;
       align-items: center;
@@ -950,15 +888,17 @@
     }
     .msalebar b { font-size: 13px; letter-spacing: -0.03em; }
     .msalebar .chip { margin-left: auto; }
+
+    /* Handsets Row on App Detail Pages */
     .handsets {
-      padding: 12px 7vw 88px;
+      padding: 36px 7vw 80px;
       text-align: center;
     }
     .handsets h2 {
       margin: 0;
-      font-size: clamp(36px, 4vw, 56px);
+      font-size: clamp(32px, 4vw, 52px);
       letter-spacing: -0.04em;
-      line-height: 1.02;
+      line-height: 1.04;
     }
     .handset-row {
       display: flex;
@@ -968,22 +908,24 @@
       margin-top: 36px;
       flex-wrap: wrap;
     }
-    .handset { width: 260px; }
+    .handset { width: 250px; margin: 0; }
     .handset .phone { width: 100%; }
     .handset figcaption {
       margin-top: 14px;
       color: var(--muted);
       font-size: 14px;
+      font-weight: 600;
     }
     .phone-hero {
       display: flex;
-      justify-content: center;
-      margin: 8px auto 72px;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      margin: 12px auto 64px;
     }
     .phone-hero .phone { width: 240px; }
-    .showcase .pair.solo { justify-content: center; }
-    .band .phone, .story-stage .phone, .inline-shot .phone { margin-inline: auto; }
-    .story-stage .phone { width: min(260px, 100%); }
+
+    /* App Specific OS Themes */
     .screen.fd-os { background: #09090b; }
     .screen.fd-os .status { color: #f4f4f5; }
     .screen.fd-os .home-bar { background: rgba(255, 255, 255, 0.88); }
@@ -994,10 +936,7 @@
       color: #f4f4f5;
       box-shadow: inset 0 0 0 1px #27272a;
     }
-    .fd .mtabs {
-      background: #09090b;
-      border-top-color: #27272a;
-    }
+    .fd .mtabs { background: #09090b; border-top-color: #27272a; }
     .fd .sellers span {
       background: #18181b;
       color: #f4f4f5;
@@ -1012,19 +951,9 @@
       color: #e8b06a;
     }
     .fd .money { font-size: 13px; letter-spacing: -0.04em; white-space: nowrap; }
-    .fd-dashboard {
-      gap: 8px;
-      padding-top: 3px;
-    }
-    .fd-greeting h3 {
-      font-size: 22px;
-      line-height: 1;
-      letter-spacing: -0.045em;
-    }
-    .fd-greeting p {
-      margin: 4px 0 0;
-      color: #a1a1aa;
-    }
+    .fd-dashboard { gap: 8px; padding-top: 3px; }
+    .fd-greeting h3 { font-size: 22px; line-height: 1; letter-spacing: -0.045em; }
+    .fd-greeting p { margin: 4px 0 0; color: #a1a1aa; }
     .fd-summary {
       position: relative;
       overflow: hidden;
@@ -1052,16 +981,8 @@
     }
     .fd-summary-main { position: relative; z-index: 1; max-width: 66%; }
     .fd-family-line { display: flex; align-items: center; gap: 5px; font-weight: 700; }
-    .fd-eye {
-      width: 13px;
-      height: 13px;
-      color: #a1a1aa;
-    }
-    .fd-summary-main .label {
-      margin: 5px 0 0;
-      color: #a1a1aa;
-      font-size: 9px;
-    }
+    .fd-eye { width: 13px; height: 13px; color: #a1a1aa; }
+    .fd-summary-main .label { margin: 5px 0 0; color: #a1a1aa; font-size: 9px; }
     .fd-summary-main .principal {
       margin: 5px 0 0;
       font-size: 26px;
@@ -1182,6 +1103,7 @@
       border-radius: inherit;
       background: #c97a2b;
     }
+
     .screen.dark-os { background: #071422; }
     .screen.dark-os .status { color: #f4f7fb; }
     .screen.dark-os .home-bar { background: rgba(255, 255, 255, 0.88); }
@@ -1239,114 +1161,469 @@
       font-weight: 650;
     }
 
+    /* Sticky Scrollytelling Story Section */
     .story {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto 80px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      padding: 0 8vw 80px;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 48px;
+      padding: 48px;
+      border-radius: 32px;
+      background: var(--stage-2);
+      box-shadow: var(--shadow-card);
     }
-    .story-copy { display: flex; flex-direction: column; }
+    .story-copy { display: flex; flex-direction: column; gap: 28px; }
     .chapter {
-      min-height: 100vh;
+      min-height: 52vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      padding: 28px;
+      border-radius: 24px;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .chapter.active-chapter {
+      background: var(--stage);
+      border-color: var(--line-strong);
+    }
+    .chapter-step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--fill);
+      color: var(--fill-ink);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .chapter h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 3.2vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      font-weight: 700;
+    }
+    .chapter p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 36ch;
     }
     .story-stage {
       position: sticky;
-      top: 140px;
+      top: 120px;
       align-self: start;
       height: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
-    body[data-proto="airy"] .story { display: none; }
-    body[data-proto="noir"] .bands { display: none; }
+    .story-stage .phone { width: min(260px, 100%); margin-inline: auto; }
     .inline-shot { display: none; }
 
-    @media (max-width: 860px) {
+    /* Tech Stack Grid */
+    .tech-intro { padding-bottom: 36px; }
+    .tech-grid {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto 88px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .tech-card {
+      padding: 32px;
+      border-radius: 28px;
+      background: var(--stage-2);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+    }
+    .tech-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .tech-card h2 {
+      margin: 0;
+      font-size: clamp(26px, 2.8vw, 36px);
+      line-height: 1;
+      letter-spacing: -0.035em;
+      font-weight: 750;
+    }
+    .tech-links {
+      display: flex;
+      gap: 8px;
+    }
+    .tech-links a {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--stage);
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .tech-card ul {
+      list-style: none;
+      margin: 20px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+    .tech-card li {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.45;
+    }
+    .tech-card li span {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--stage);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+    }
+    .tech-card li b { color: var(--ink); font-weight: 650; }
+    .tech-card .tech-note {
+      margin: 20px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    /* REDESIGNED CONTACT STUDIO */
+    .contact-studio {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto 88px;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .contact-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .availability-card {
+      padding: 22px 24px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.14), transparent 55%),
+        var(--stage-2);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .avail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .availability-card h3 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.025em;
+    }
+    .availability-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .capability-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .capability-tags span {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--stage);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .contact-row {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 20px 22px;
+      border-radius: 24px;
+      background: var(--stage-2);
+      box-shadow: var(--shadow-card);
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .contact-row:hover {
+      transform: translateY(-2px);
+    }
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--stage);
+      box-shadow: inset 0 0 0 1px var(--line);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      flex: none;
+    }
+    .contact-info {
+      min-width: 0;
+    }
+    .contact-info b {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .contact-info em {
+      display: block;
+      margin-top: 2px;
+      color: var(--ink);
+      font-style: normal;
+      font-size: 16.5px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .contact-info small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .copy-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 15px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: var(--stage);
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex: none;
+      transition: background-color 0.18s ease, transform 0.18s ease;
+    }
+    .copy-pill:hover {
+      background: var(--fill);
+      color: var(--fill-ink);
+      border-color: transparent;
+    }
+
+    /* Quick Project Brief Composer Card */
+    .brief-card {
+      padding: 30px;
+      border-radius: 28px;
+      background: var(--stage-2);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .brief-head h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+    .brief-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .brief-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .topic-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .topic-pill {
+      border: 1px solid var(--line-strong);
+      background: var(--stage);
+      color: var(--muted);
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.18s ease;
+    }
+    .topic-pill:hover {
+      color: var(--ink);
+    }
+    .topic-pill.on {
+      background: var(--fill);
+      color: var(--fill-ink);
+      border-color: transparent;
+    }
+    .brief-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line-strong);
+      background: var(--stage);
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.45;
+      resize: vertical;
+    }
+    .brief-input::placeholder {
+      color: var(--muted);
+    }
+    .brief-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .foot {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto 24px;
+      padding: 24px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* Animations */
+    @keyframes rise-in { to { opacity: 1; transform: none; } }
+    [data-page="home"] .hero > *,
+    [data-page="home"] .showcase {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: rise-in 0.75s cubic-bezier(0.22, 0.7, 0.2, 1) forwards;
+    }
+    [data-page="home"] .showcase:nth-child(2) { animation-delay: 0.08s; }
+    [data-page="home"] .showcase:nth-child(3) { animation-delay: 0.14s; }
+    [data-page="home"] .showcase:nth-child(4) { animation-delay: 0.2s; }
+
+    @media (max-width: 920px) {
       html, body { overflow-x: clip; }
-      .proto-bar .note { display: none; }
-      .nav { top: 44px; padding: 0 16px; }
-      .nav-links { gap: 16px; }
-      .nav-apps, .nav-more { gap: 12px; }
-      .nav-more { padding-left: 16px; }
-      .nav .text-btn { font-size: 13px; }
-      .device { width: min(640px, calc(100% - 32px)); }
-      h1 { font-size: 36px; }
-      .lede { font-size: 17px; }
-      .hero, .close { padding-left: 16px; padding-right: 16px; }
-      .showcase, .band, .story {
-        grid-template-columns: minmax(0, 1fr);
-        padding: 48px 16px;
-        min-height: 0;
-        width: 100%;
+      .site-header {
+        top: 8px;
+        border-radius: 22px;
+        flex-wrap: wrap;
+        padding: 12px 14px;
       }
-      .showcase > *, .band > *, .device, .bezel, .screen { min-width: 0; max-width: 100%; }
-      .lede { max-width: 34rem; }
+      .nav-links {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+      }
+      .showcase, .showcase:has(.pair .device), .story, .contact-studio {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .showcase, .story {
+        padding: 32px 20px;
+      }
       .features.wide,
       .features.wide:has(> li:nth-child(4):last-child) {
         grid-template-columns: 1fr 1fr;
-        gap: 18px 8px;
       }
-      .features.wide li { border-left: 0; padding: 0 10px; }
-      .tech-grid { grid-template-columns: 1fr; width: min(100% - 32px, 620px); }
-      .band.flip .copy { order: 0; }
+      .tech-grid { grid-template-columns: 1fr; }
       .story-stage { display: none; }
-      .inline-shot { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: 24px; }
+      .chapter { min-height: 0; padding: 20px 0; border: 0; background: none !important; }
+      .inline-shot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
       .pair { flex-direction: column; align-items: center; }
       .showcase .pair.phones { flex-direction: row; }
-      .showcase:has(.pair .device) { grid-template-columns: minmax(0, 1fr); }
-      .showcase .pair .device { width: 100%; max-width: 100%; flex: none; }
+      .showcase .pair .device, .hero-pair .device { width: 100%; max-width: 100%; }
       .showcase .pair.phones .phone { width: min(160px, 42vw); }
-      .pair .device, .hero-pair .device { width: min(640px, calc(100% - 32px)); }
       .phone { width: min(220px, 72vw); }
-      .chapter { min-height: 0; padding: 48px 0; }
       .ui { grid-template-columns: 1fr; }
       .side { display: none; }
-      .foot { flex-direction: column; }
-    }
-    @media (max-width: 640px) {
-      .nav {
-        height: auto;
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 8px;
-        padding: 12px 16px;
-      }
-      .nav-links { width: 100%; flex-direction: column; align-items: flex-start; gap: 8px; }
-      .nav-apps, .nav-more { flex-wrap: wrap; gap: 8px 12px; }
-      .nav-more { width: 100%; margin: 0; padding: 8px 0 0; border-left: 0; border-top: 1px solid var(--line); }
-      .nav .text-btn { white-space: nowrap; font-size: 13px; }
-      .tech-card { padding: 22px 18px; }
-      .contact-row { padding: 18px; }
-      .contact-row em { font-size: 16px; }
+      .foot { flex-direction: column; text-align: center; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .reveal, .caret, .hit.late, .row.late, .amt .next, .reel .mframe,
-      [data-page="home"] .hero > *,
-      [data-page="home"] .showcase > div:first-child > *,
-      [data-page="home"] .showcase .pair > *,
-      [data-page="home"] .foot { animation: none; opacity: 1; width: auto; transform: none; }
-      .amt .prev { display: none; }
-      .reel .mframe { opacity: 0; }
-      .reel .mframe:nth-child(1 of .mframe) { opacity: 1; }
+    @media (max-width: 560px) {
+      .features.wide,
+      .features.wide:has(> li:nth-child(4):last-child) {
+        grid-template-columns: 1fr;
+      }
+      .contact-row {
+        grid-template-columns: 44px minmax(0, 1fr);
+      }
+      .contact-row .copy-pill {
+        grid-column: 1 / -1;
+        width: 100%;
+      }
+      .brief-actions {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body data-proto="airy">
-  <div class="proto-bar">
-    <strong>Prototypes</strong>
-    <span class="note">Screens are illustrated from the live app. Loops stand in for recordings.</span>
-    <div class="switch" role="group" aria-label="Prototype direction">
-      <button type="button" data-proto-btn="airy" aria-pressed="true">Airy</button>
-      <button type="button" data-proto-btn="noir" aria-pressed="false">Noir</button>
+  <header class="site-header">
+    <div class="brand-group">
+      <button class="wordmark" type="button" data-go="home">
+        <span class="status-dot" aria-hidden="true"></span>
+        VIKRAM MULGUND
+      </button>
     </div>
-  </div>
 
-  <header class="nav">
-    <button class="wordmark" type="button" data-go="home">VIKRAM MULGUND</button>
     <nav class="nav-links" aria-label="Primary">
       <div class="nav-apps">
+        <button class="text-btn active" type="button" data-go="home">Overview</button>
         <button class="text-btn" type="button" data-go="mig">MIG Stock</button>
         <button class="text-btn" type="button" data-go="phoenix">Phoenix</button>
         <button class="text-btn" type="button" data-go="fd">Lalitamba</button>
@@ -1354,186 +1631,256 @@
       </div>
       <div class="nav-more">
         <button class="text-btn" type="button" data-go="stack">Tech Stack</button>
-        <button class="text-btn" type="button" data-go="contact">Contact Us</button>
+        <button class="text-btn" type="button" data-go="contact">Contact</button>
       </div>
     </nav>
+
+    <div class="switch" role="group" aria-label="Theme mode">
+      <button type="button" data-proto-btn="airy" aria-pressed="true">Airy</button>
+      <button type="button" data-proto-btn="noir" aria-pressed="false">Noir</button>
+    </div>
   </header>
 
   <main class="page" data-page="home">
     <section class="hero">
-      <p class="eyebrow">Vikram · Portfolio</p>
+      <p class="eyebrow-pill">Vikram Mulgund · Production Web Apps</p>
       <h1>Apps I’ve built for real work.</h1>
-      <p class="lede">Four web apps, each built for a specific job and each live online. They run in a browser and install on a phone. Open any of them to see how it works, try the live app, or read the code.</p>
-    </section>
-
-    <section class="showcase">
-      <div>
-        <p class="eyebrow">Sales and inventory</p>
-        <h2>MIG Stock</h2>
-        <p>Sales and stock for a shop that sells clamps. Ring up a sale and the stock count updates with it, on the counter laptop or a phone.</p>
-        <ul class="features">
-          <li><span aria-hidden="true">🧾</span>Sales by product and by customer</li>
-          <li><span aria-hidden="true">💬</span>Invoices shared on WhatsApp</li>
-          <li><span aria-hidden="true">📦</span>Stock that updates with every sale</li>
-          <li><span aria-hidden="true">📊</span>Sales reports</li>
-          <li><span aria-hidden="true">🤖</span>Gemini chatbot for questions like “what’s low on stock?”</li>
-        </ul>
-        <button class="btn" type="button" data-go="mig">See how it works</button>
-      </div>
-      <div class="pair">
-        <div class="device" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
-            <div class="screen" id="mig-hero-screen"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-        <div class="phone reel" aria-hidden="true">
-          <div class="shell">
-            <div class="screen">
-              <div class="mframe" data-mount="phone-dash"></div>
-              <div class="mframe" data-mount="phone-sale"></div>
-              <div class="mframe" data-mount="phone-stock"></div>
-            </div>
-          </div>
-        </div>
+      <p class="lede">Four custom web applications built for daily operations and family finance. Each runs live in the browser, installs as a phone PWA, and solves a concrete workflow.</p>
+      <div class="hero-dock">
+        <button class="dock-pill" type="button" data-go="mig">📦 MIG Stock <small>React · Supabase · Gemini</small></button>
+        <button class="dock-pill" type="button" data-go="phoenix">🎮 Phoenix Lounge <small>React 19 · Tailwind</small></button>
+        <button class="dock-pill" type="button" data-go="fd">🏦 Lalitamba FD <small>Gemini OCR · Edge</small></button>
+        <button class="dock-pill" type="button" data-go="dep">💰 Family Deposits <small>TypeScript Ledger</small></button>
       </div>
     </section>
 
-    <section class="showcase">
-      <div>
-        <p class="eyebrow">Gaming lounge</p>
-        <h2>Phoenix</h2>
-        <p>Runs a PS5 gaming lounge. Start a session on a console, the timer keeps counting, and the bill is worked out when the player leaves.</p>
-        <ul class="features">
-          <li><span aria-hidden="true">🎮</span>See which PS5s are free, and start a session from the station</li>
-          <li><span aria-hidden="true">⏱️</span>Live timers that keep counting from when play starts</li>
-          <li><span aria-hidden="true">🧾</span>Bills with a one-hour minimum, then 30-minute intervals</li>
-          <li><span aria-hidden="true">📈</span>Daily revenue, most-visited customers, and usage of each PS5</li>
-        </ul>
-        <button class="btn" type="button" data-go="phoenix">See how it works</button>
-      </div>
-      <div class="pair">
-        <div class="device" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
-            <div class="screen" data-mount="px-dash"></div>
+    <div class="showcase-wrap">
+      <!-- 1. MIG STOCK -->
+      <section class="showcase" data-theme="mig">
+        <div>
+          <div class="showcase-meta">
+            <p class="eyebrow">Sales & Inventory</p>
+            <span class="badge-live">● Live PWA</span>
           </div>
-          <div class="hinge"></div>
+          <h2>MIG Stock</h2>
+          <p>Sales and stock for a shop that sells clamps. Ring up a sale and the stock count updates with it, on the counter laptop or a phone.</p>
+          <ul class="features">
+            <li><span aria-hidden="true">🧾</span>Sales tracked by product and customer</li>
+            <li><span aria-hidden="true">💬</span>One-tap WhatsApp invoice sharing</li>
+            <li><span aria-hidden="true">📦</span>Atomic stock deduction with every sale</li>
+            <li><span aria-hidden="true">🤖</span>Gemini assistant for “what’s low on stock?”</li>
+          </ul>
+          <div class="showcase-actions">
+            <button class="btn" type="button" data-go="mig">Explore case study</button>
+            <a class="btn ghost" href="https://mig-stock.vercel.app" target="_blank" rel="noopener">Live app ↗</a>
+          </div>
         </div>
-        <div class="phone reel" aria-hidden="true">
-          <div class="shell">
-            <div class="screen dark-os">
-              <div class="mframe" data-mount="phone-px-dash"></div>
-              <div class="mframe" data-mount="phone-floor"></div>
-              <div class="mframe" data-mount="phone-timer"></div>
+        <div class="stage-col">
+          <div class="pair">
+            <div class="device" aria-hidden="true">
+              <div class="bezel">
+                <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
+                <div class="screen" id="mig-hero-screen"></div>
+              </div>
+            </div>
+            <div class="phone reel" data-reel="mig-home" aria-hidden="true">
+              <div class="shell">
+                <div class="screen">
+                  <div class="mframe active-frame" data-mount="phone-dash"></div>
+                  <div class="mframe" data-mount="phone-sale"></div>
+                  <div class="mframe" data-mount="phone-stock"></div>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="screen-pills" data-control="mig-home">
+            <button type="button" class="on" data-idx="0">Auto Cycle</button>
+            <button type="button" data-idx="1">Dashboard</button>
+            <button type="button" data-idx="2">New Sale</button>
+            <button type="button" data-idx="3">Low Stock</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="showcase">
-      <div>
-        <p class="eyebrow">Fixed deposits</p>
-        <h2>Lalitamba</h2>
-        <p>One family’s fixed deposits with a cooperative society, in one place: what matures when, the monthly interest, and each member’s passbook.</p>
-        <ul class="features">
-          <li><span aria-hidden="true">📸</span>Scan a receipt — Gemini creates the FD, even from an unclear photo</li>
-          <li><span aria-hidden="true">🛡️</span>Super admin approves new records</li>
-          <li><span aria-hidden="true">👪</span>Family members track their own FDs</li>
-          <li><span aria-hidden="true">📊</span>Dashboard of the total, matured FDs, and what’s coming due</li>
-        </ul>
-        <button class="btn" type="button" data-go="fd">See how it works</button>
-      </div>
-      <div class="pair solo phones">
-        <div class="phone reel" aria-hidden="true">
-          <div class="shell">
-            <div class="screen fd-os">
-              <div class="mframe" data-mount="fd-home"></div>
-              <div class="mframe" data-mount="fd-list"></div>
-              <div class="mframe" data-mount="fd-book"></div>
-            </div>
+      <!-- 2. PHOENIX -->
+      <section class="showcase" data-theme="px">
+        <div>
+          <div class="showcase-meta">
+            <p class="eyebrow">Gaming Lounge</p>
+            <span class="badge-live">● Live PWA</span>
+          </div>
+          <h2>Phoenix</h2>
+          <p>Runs a PS5 gaming lounge. Start a session on a console, the timer keeps counting, and the bill is worked out when the player leaves.</p>
+          <ul class="features">
+            <li><span aria-hidden="true">🎮</span>Live station floor status for every PS5</li>
+            <li><span aria-hidden="true">⏱️</span>Persistent timestamps that survive refreshes</li>
+            <li><span aria-hidden="true">🧾</span>Auto-billing: 1-hr minimum + 30-min intervals</li>
+            <li><span aria-hidden="true">📈</span>Daily revenue & console utilization analytics</li>
+          </ul>
+          <div class="showcase-actions">
+            <button class="btn" type="button" data-go="phoenix">Explore case study</button>
+            <a class="btn ghost" href="https://phoenix-gaming-zone.vercel.app" target="_blank" rel="noopener">Live app ↗</a>
           </div>
         </div>
-        <div class="phone s24 reel" aria-hidden="true">
-          <div class="shell">
-            <div class="screen fd-os">
-              <div class="mframe" data-mount="fd-home"></div>
-              <div class="mframe" data-mount="fd-list"></div>
-              <div class="mframe" data-mount="fd-book"></div>
+        <div class="stage-col">
+          <div class="pair">
+            <div class="device" aria-hidden="true">
+              <div class="bezel">
+                <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
+                <div class="screen" data-mount="px-dash"></div>
+              </div>
+            </div>
+            <div class="phone reel" data-reel="px-home" aria-hidden="true">
+              <div class="shell">
+                <div class="screen dark-os">
+                  <div class="mframe active-frame" data-mount="phone-px-dash"></div>
+                  <div class="mframe" data-mount="phone-floor"></div>
+                  <div class="mframe" data-mount="phone-timer"></div>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="screen-pills" data-control="px-home">
+            <button type="button" class="on" data-idx="0">Auto Cycle</button>
+            <button type="button" data-idx="1">Overview</button>
+            <button type="button" data-idx="2">PS5 Floor</button>
+            <button type="button" data-idx="3">Live Timer</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="showcase">
-      <div>
-        <p class="eyebrow">Family lending</p>
-        <h2>Deposits</h2>
-        <p>Tracks money lent within a family. Each deposit earns 2% a month; the app shows what is ready to collect and how close each one is to paying back.</p>
-        <ul class="features">
-          <li><span aria-hidden="true">💰</span>Total deposited, with a separate balance for each family member</li>
-          <li><span aria-hidden="true">🔔</span>Monthly reminders when interest is ready to collect</li>
-          <li><span aria-hidden="true">📈</span>See how much interest the family has recovered so far</li>
-          <li><span aria-hidden="true">👤</span>Record withdrawals and who collected the money</li>
-          <li><span aria-hidden="true">📊</span>Family-wide analytics for investments, collections, and withdrawals</li>
-        </ul>
-        <button class="btn" type="button" data-go="dep">See how it works</button>
-      </div>
-      <div class="pair solo phones">
-        <div class="phone reel" aria-hidden="true">
-          <div class="shell">
-            <div class="screen fd-os">
-              <div class="mframe" data-mount="dep-home"></div>
-              <div class="mframe" data-mount="dep-collect"></div>
-              <div class="mframe" data-mount="dep-stats"></div>
-            </div>
+      <!-- 3. LALITAMBA -->
+      <section class="showcase" data-theme="fd">
+        <div>
+          <div class="showcase-meta">
+            <p class="eyebrow">Fixed Deposits</p>
+            <span class="badge-live">● Private Family PWA</span>
+          </div>
+          <h2>Lalitamba</h2>
+          <p>One family’s fixed deposits with a cooperative society, in one place: what matures when, the monthly interest, and each member’s passbook.</p>
+          <ul class="features">
+            <li><span aria-hidden="true">📸</span>Scan a receipt — Gemini extracts FD fields</li>
+            <li><span aria-hidden="true">🛡️</span>Super-admin approval workflow for new FDs</li>
+            <li><span aria-hidden="true">👪</span>Individual member passbooks & balances</li>
+            <li><span aria-hidden="true">📊</span>90-day maturity radar & monthly interest view</li>
+          </ul>
+          <div class="showcase-actions">
+            <button class="btn" type="button" data-go="fd">Explore case study</button>
+            <a class="btn ghost" href="https://lalitamba-fd-tracker.vercel.app" target="_blank" rel="noopener">Live app ↗</a>
           </div>
         </div>
-        <div class="phone s24 reel" aria-hidden="true">
-          <div class="shell">
-            <div class="screen fd-os">
-              <div class="mframe" data-mount="dep-home"></div>
-              <div class="mframe" data-mount="dep-collect"></div>
-              <div class="mframe" data-mount="dep-stats"></div>
+        <div class="stage-col">
+          <div class="pair solo phones">
+            <div class="phone reel" data-reel="fd-home" aria-hidden="true">
+              <div class="shell">
+                <div class="screen fd-os">
+                  <div class="mframe active-frame" data-mount="fd-home"></div>
+                  <div class="mframe" data-mount="fd-list"></div>
+                  <div class="mframe" data-mount="fd-book"></div>
+                </div>
+              </div>
+            </div>
+            <div class="phone s24 reel" data-reel="fd-home" aria-hidden="true">
+              <div class="shell">
+                <div class="screen fd-os">
+                  <div class="mframe active-frame" data-mount="fd-home"></div>
+                  <div class="mframe" data-mount="fd-list"></div>
+                  <div class="mframe" data-mount="fd-book"></div>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="screen-pills" data-control="fd-home">
+            <button type="button" class="on" data-idx="0">Auto Cycle</button>
+            <button type="button" data-idx="1">Portfolio</button>
+            <button type="button" data-idx="2">FD Certificates</button>
+            <button type="button" data-idx="3">Passbooks</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- 4. DEPOSITS -->
+      <section class="showcase" data-theme="dep">
+        <div>
+          <div class="showcase-meta">
+            <p class="eyebrow">Family Lending</p>
+            <span class="badge-live">● Private Family PWA</span>
+          </div>
+          <h2>Deposits</h2>
+          <p>Tracks money lent within a family. Each deposit earns 2% a month; the app shows what is ready to collect and how close each one is to paying back.</p>
+          <ul class="features">
+            <li><span aria-hidden="true">💰</span>Family-wide & individual member balances</li>
+            <li><span aria-hidden="true">🔔</span>Monthly collection readiness & due dates</li>
+            <li><span aria-hidden="true">📈</span>Break-even recovery progress tracker</li>
+            <li><span aria-hidden="true">📊</span>One-tap Excel ledger backup export</li>
+          </ul>
+          <div class="showcase-actions">
+            <button class="btn" type="button" data-go="dep">Explore case study</button>
+            <a class="btn ghost" href="https://investment-tracker-khaki-nine.vercel.app" target="_blank" rel="noopener">Live app ↗</a>
+          </div>
+        </div>
+        <div class="stage-col">
+          <div class="pair solo phones">
+            <div class="phone reel" data-reel="dep-home" aria-hidden="true">
+              <div class="shell">
+                <div class="screen fd-os">
+                  <div class="mframe active-frame" data-mount="dep-home"></div>
+                  <div class="mframe" data-mount="dep-collect"></div>
+                  <div class="mframe" data-mount="dep-stats"></div>
+                </div>
+              </div>
+            </div>
+            <div class="phone s24 reel" data-reel="dep-home" aria-hidden="true">
+              <div class="shell">
+                <div class="screen fd-os">
+                  <div class="mframe active-frame" data-mount="dep-home"></div>
+                  <div class="mframe" data-mount="dep-collect"></div>
+                  <div class="mframe" data-mount="dep-stats"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="screen-pills" data-control="dep-home">
+            <button type="button" class="on" data-idx="0">Auto Cycle</button>
+            <button type="button" data-idx="1">Family Card</button>
+            <button type="button" data-idx="2">Collections</button>
+            <button type="button" data-idx="3">Break-Even</button>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <footer class="foot">
-      <span>VIKRAM MULGUND · portfolio</span>
+      <span>VIKRAM MULGUND · Portfolio</span>
       <span>Each live app asks for a sign-in. Names and amounts in the screens are samples.</span>
     </footer>
   </main>
 
+  <!-- MIG STOCK DETAIL PAGE -->
   <main class="page" data-page="mig" hidden>
     <section class="hero">
-      <p class="eyebrow">Web app</p>
+      <p class="eyebrow-pill">Case Study · Sales & Inventory</p>
       <h1>MIG Stock</h1>
       <p class="lede">Stock and sales for the counter, and a PWA on the phone. A sale writes the ledger, the receipt, and today’s totals together.</p>
       <ul class="features wide">
         <li><span aria-hidden="true">🧾</span><div><b>Sales tracking</b><p>Every sale by product, and by customer.</p></div></li>
         <li><span aria-hidden="true">💬</span><div><b>Invoices on WhatsApp</b><p>Share each invoice straight to the customer.</p></div></li>
-        <li><span aria-hidden="true">📦</span><div><b>Stock management</b><p>Counts drop as you sell.</p></div></li>
+        <li><span aria-hidden="true">📦</span><div><b>Stock management</b><p>Counts drop atomically as you sell.</p></div></li>
         <li><span aria-hidden="true">📊</span><div><b>Reports</b><p>Sales totals and top customers.</p></div></li>
         <li><span aria-hidden="true">🤖</span><div><b>Gemini chatbot</b><p>Ask about low stock, today’s sales, or top customers.</p></div></li>
       </ul>
       <div class="actions">
-        <a class="btn" href="https://mig-stock.vercel.app" target="_blank" rel="noopener">Live app</a>
-        <a class="btn ghost" href="https://github.com/vikramam/mig-stock" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://mig-stock.vercel.app" target="_blank" rel="noopener">Launch live app ↗</a>
+        <a class="btn ghost" href="https://github.com/vikramam/mig-stock" target="_blank" rel="noopener">View GitHub</a>
       </div>
     </section>
+
     <div class="pair hero-pair">
       <div class="device" aria-hidden="true">
         <div class="bezel">
           <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
           <div class="screen" data-mount="mig-dash"></div>
         </div>
-        <div class="hinge"></div>
       </div>
       <div class="phone reel" aria-hidden="true">
         <div class="shell">
@@ -1547,7 +1894,7 @@
     </div>
 
     <section class="handsets">
-      <p class="eyebrow">PWA</p>
+      <p class="eyebrow-pill">Mobile Workflow</p>
       <h2>On the phone.</h2>
       <p class="lede">Bottom navigation for the day. A new sale replaces that bar with the total and Complete sale.</p>
       <div class="handset-row">
@@ -1572,64 +1919,25 @@
       </div>
     </section>
 
-    <div class="bands">
-      <section class="band">
-        <div class="copy reveal">
-          <h2>The day, on one screen.</h2>
-          <p>Sales today, pending balances, low stock, and a seven-day trend. Recent receipts sit under the chart.</p>
-        </div>
-        <div class="device small" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
-            <div class="screen" data-mount="mig-dash"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-      </section>
-      <section class="band flip">
-        <div class="copy reveal">
-          <h2>A sale that moves the stock.</h2>
-          <p>Pick the product, type, and size. Complete sale writes the line and the stock count in one step.</p>
-        </div>
-        <div class="device small" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/sale/new</span></div>
-            <div class="screen" data-mount="mig-sale"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-      </section>
-      <section class="band">
-        <div class="copy reveal">
-          <h2>Low stock, before the shelf is empty.</h2>
-          <p>Inventory lists what is under the threshold, with restock on the row.</p>
-        </div>
-        <div class="device small" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/low-stock</span></div>
-            <div class="screen" data-mount="mig-stock"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-      </section>
-    </div>
-
     <div class="story" data-pin>
       <div class="story-copy">
-        <article class="chapter" data-shot="0">
+        <article class="chapter active-chapter" data-shot="0">
+          <span class="chapter-step">1</span>
           <h2>The day, on one screen.</h2>
           <p>Sales today, pending balances, low stock, and a seven-day trend. Recent receipts sit under the chart.</p>
-          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div><div class="screen" data-mount="mig-dash"></div></div><div class="hinge"></div></div>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div><div class="screen" data-mount="mig-dash"></div></div></div>
         </article>
         <article class="chapter" data-shot="1">
+          <span class="chapter-step">2</span>
           <h2>A sale that moves the stock.</h2>
           <p>Pick the product, type, and size. Complete sale writes the line and the stock count in one step.</p>
-          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/sale/new</span></div><div class="screen" data-mount="mig-sale"></div></div><div class="hinge"></div></div>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/sale/new</span></div><div class="screen" data-mount="mig-sale"></div></div></div>
         </article>
         <article class="chapter" data-shot="2">
+          <span class="chapter-step">3</span>
           <h2>Low stock, before the shelf is empty.</h2>
           <p>Inventory lists what is under the threshold, with restock on the row.</p>
-          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/low-stock</span></div><div class="screen" data-mount="mig-stock"></div></div><div class="hinge"></div></div>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app/low-stock</span></div><div class="screen" data-mount="mig-stock"></div></div></div>
         </article>
       </div>
       <div class="story-stage">
@@ -1638,21 +1946,21 @@
             <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">mig-stock.vercel.app</span></div>
             <div class="screen">
               <div class="shot" data-frame="0" data-mount="mig-dash"></div>
-              <div class="shot" data-frame="1" data-mount="mig-sale"></div>
-              <div class="shot" data-frame="2" data-mount="mig-stock"></div>
+              <div class="shot" data-frame="1" data-mount="mig-sale" hidden></div>
+              <div class="shot" data-frame="2" data-mount="mig-stock" hidden></div>
             </div>
           </div>
-          <div class="hinge"></div>
         </div>
       </div>
     </div>
 
-    <footer class="foot"><span>MIG Stock · Clamp Sales</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+    <footer class="foot"><span>MIG Stock · Clamp Sales</span><button class="text-btn" type="button" data-go="home">← Back to all work</button></footer>
   </main>
 
+  <!-- PHOENIX DETAIL PAGE -->
   <main class="page" data-page="phoenix" hidden>
     <section class="hero">
-      <p class="eyebrow">Web app</p>
+      <p class="eyebrow-pill">Case Study · Gaming Lounge</p>
       <h1>Phoenix</h1>
       <p class="lede">Operator control for the shop floor. Start a session, keep the timer, and bill by the hour on the counter or a phone.</p>
       <ul class="features wide">
@@ -1663,17 +1971,17 @@
         <li><span aria-hidden="true">📈</span><div><b>Usage reports</b><p>Daily revenue, top customers, and use of each PS5.</p></div></li>
       </ul>
       <div class="actions">
-        <a class="btn" href="https://phoenix-gaming-zone.vercel.app" target="_blank" rel="noopener">Live app</a>
-        <a class="btn ghost" href="https://github.com/vikramam/phoenix-gaming-zone" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://phoenix-gaming-zone.vercel.app" target="_blank" rel="noopener">Launch live app ↗</a>
+        <a class="btn ghost" href="https://github.com/vikramam/phoenix-gaming-zone" target="_blank" rel="noopener">View GitHub</a>
       </div>
     </section>
+
     <div class="pair hero-pair">
       <div class="device" aria-hidden="true">
         <div class="bezel">
           <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
           <div class="screen" data-mount="px-dash"></div>
         </div>
-        <div class="hinge"></div>
       </div>
       <div class="phone reel" aria-hidden="true">
         <div class="shell">
@@ -1687,7 +1995,7 @@
     </div>
 
     <section class="handsets">
-      <p class="eyebrow">PWA</p>
+      <p class="eyebrow-pill">Mobile Operator View</p>
       <h2>On the phone.</h2>
       <p class="lede">The day’s dashboard, then the floor, timers, and the bill.</p>
       <div class="handset-row">
@@ -1718,82 +2026,31 @@
       </div>
     </section>
 
-    <div class="bands">
-      <section class="band">
-        <div class="copy reveal">
-          <h2>The day, at a glance.</h2>
-          <p>Revenue, live sessions, and what is free or in use, over the arena.</p>
-        </div>
-        <div class="device small" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
-            <div class="screen" data-mount="px-dash"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-      </section>
-      <section class="band flip">
-        <div class="copy reveal">
-          <h2>The floor, live.</h2>
-          <p>See which PS5s are free or in use, and start a session from the station.</p>
-        </div>
-        <div class="device small" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
-            <div class="screen" data-mount="px-floor"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-      </section>
-      <section class="band">
-        <div class="copy reveal">
-          <h2>The timer is the start time.</h2>
-          <p>Refresh the page and the clock is still right. It is counted from when the session began.</p>
-        </div>
-        <div class="device small" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/active</span></div>
-            <div class="screen" data-mount="px-timer"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-      </section>
-      <section class="band flip">
-        <div class="copy reveal">
-          <h2>The bill rounds up.</h2>
-          <p>One hour minimum, then 30 minutes. An hour and 25 minutes bills as an hour and a half.</p>
-        </div>
-        <div class="device small" aria-hidden="true">
-          <div class="bezel">
-            <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/history</span></div>
-            <div class="screen" data-mount="px-bill"></div>
-          </div>
-          <div class="hinge"></div>
-        </div>
-      </section>
-    </div>
-
     <div class="story" data-pin>
       <div class="story-copy">
-        <article class="chapter" data-shot="0">
+        <article class="chapter active-chapter" data-shot="0">
+          <span class="chapter-step">1</span>
           <h2>The day, at a glance.</h2>
           <p>Revenue, live sessions, and what is free or in use, over the arena.</p>
-          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div><div class="screen" data-mount="px-dash"></div></div><div class="hinge"></div></div>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div><div class="screen" data-mount="px-dash"></div></div></div>
         </article>
         <article class="chapter" data-shot="1">
+          <span class="chapter-step">2</span>
           <h2>The floor, live.</h2>
           <p>See which PS5s are free or in use, and start a session from the station.</p>
-          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div><div class="screen" data-mount="px-floor"></div></div><div class="hinge"></div></div>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div><div class="screen" data-mount="px-floor"></div></div></div>
         </article>
         <article class="chapter" data-shot="2">
+          <span class="chapter-step">3</span>
           <h2>The timer is the start time.</h2>
           <p>Refresh the page and the clock is still right. It is counted from when the session began.</p>
-          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/active</span></div><div class="screen" data-mount="px-timer"></div></div><div class="hinge"></div></div>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/active</span></div><div class="screen" data-mount="px-timer"></div></div></div>
         </article>
         <article class="chapter" data-shot="3">
+          <span class="chapter-step">4</span>
           <h2>The bill rounds up.</h2>
           <p>One hour minimum, then 30 minutes. An hour and 25 minutes bills as an hour and a half.</p>
-          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/history</span></div><div class="screen" data-mount="px-bill"></div></div><div class="hinge"></div></div>
+          <div class="inline-shot device small" aria-hidden="true"><div class="bezel"><div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app/history</span></div><div class="screen" data-mount="px-bill"></div></div></div>
         </article>
       </div>
       <div class="story-stage">
@@ -1802,22 +2059,22 @@
             <div class="chrome-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">phoenix-gaming-zone.vercel.app</span></div>
             <div class="screen">
               <div class="shot" data-frame="0" data-mount="px-dash"></div>
-              <div class="shot" data-frame="1" data-mount="px-floor"></div>
-              <div class="shot" data-frame="2" data-mount="px-timer"></div>
-              <div class="shot" data-frame="3" data-mount="px-bill"></div>
+              <div class="shot" data-frame="1" data-mount="px-floor" hidden></div>
+              <div class="shot" data-frame="2" data-mount="px-timer" hidden></div>
+              <div class="shot" data-frame="3" data-mount="px-bill" hidden></div>
             </div>
           </div>
-          <div class="hinge"></div>
         </div>
       </div>
     </div>
 
-    <footer class="foot"><span>Phoenix Gaming Zone</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+    <footer class="foot"><span>Phoenix Gaming Zone</span><button class="text-btn" type="button" data-go="home">← Back to all work</button></footer>
   </main>
 
+  <!-- LALITAMBA DETAIL PAGE -->
   <main class="page" data-page="fd" hidden>
     <section class="hero">
-      <p class="eyebrow">Phone app</p>
+      <p class="eyebrow-pill">Case Study · Cooperative Fixed Deposits</p>
       <h1>Lalitamba</h1>
       <p class="lede">A private PWA for one family’s fixed deposits at Shri Lalitamba Pattina Souharda Sahakari Ltd, Gadag. Photograph a certificate, confirm the fields, then track maturity, interest, and the passbook.</p>
       <ul class="features wide">
@@ -1827,10 +2084,11 @@
         <li><span aria-hidden="true">📊</span><div><b>Dashboard</b><p>Total amount, matured FDs, and what’s coming due.</p></div></li>
       </ul>
       <div class="actions">
-        <a class="btn" href="https://lalitamba-fd-tracker.vercel.app" target="_blank" rel="noopener">Live app</a>
-        <a class="btn ghost" href="https://github.com/vikramam/lalitamba-fd-tracker" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://lalitamba-fd-tracker.vercel.app" target="_blank" rel="noopener">Launch live app ↗</a>
+        <a class="btn ghost" href="https://github.com/vikramam/lalitamba-fd-tracker" target="_blank" rel="noopener">View GitHub</a>
       </div>
     </section>
+
     <div class="phone-hero">
       <div class="phone reel" aria-hidden="true">
         <div class="shell">
@@ -1844,7 +2102,7 @@
     </div>
 
     <section class="handsets">
-      <p class="eyebrow">PWA</p>
+      <p class="eyebrow-pill">Phone-First Design</p>
       <h2>On the phone.</h2>
       <p class="lede">Home, the deposit list, and each member’s passbook.</p>
       <div class="handset-row">
@@ -1869,49 +2127,22 @@
       </div>
     </section>
 
-    <div class="bands">
-      <section class="band">
-        <div class="copy reveal">
-          <h2>The book, on one screen.</h2>
-          <p>Principal outstanding, monthly interest, and what matures in the next 90 days. Closed deposits stay out of the totals.</p>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-home"></div></div></div>
-        </div>
-      </section>
-      <section class="band flip">
-        <div class="copy reveal">
-          <h2>Every certificate, by person.</h2>
-          <p>Search an FD number, filter what is due soon, and open the slip. Sample numbers 01FD40599 and 01FD32450 are the practice receipts.</p>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-list"></div></div></div>
-        </div>
-      </section>
-      <section class="band">
-        <div class="copy reveal">
-          <h2>A passbook beside the deposit.</h2>
-          <p>Credits and debits sit with the member. The FD principal stays on the certificate.</p>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-book"></div></div></div>
-        </div>
-      </section>
-    </div>
-
     <div class="story" data-pin>
       <div class="story-copy">
-        <article class="chapter" data-shot="0">
+        <article class="chapter active-chapter" data-shot="0">
+          <span class="chapter-step">1</span>
           <h2>The book, on one screen.</h2>
           <p>Principal outstanding, monthly interest, and what matures in the next 90 days. Closed deposits stay out of the totals.</p>
           <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-home"></div></div></div></div></div>
         </article>
         <article class="chapter" data-shot="1">
+          <span class="chapter-step">2</span>
           <h2>Every certificate, by person.</h2>
           <p>Search an FD number, filter what is due soon, and open the slip. Sample numbers 01FD40599 and 01FD32450 are the practice receipts.</p>
           <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-list"></div></div></div></div></div>
         </article>
         <article class="chapter" data-shot="2">
+          <span class="chapter-step">3</span>
           <h2>A passbook beside the deposit.</h2>
           <p>Credits and debits sit with the member. The FD principal stays on the certificate.</p>
           <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="fd-book"></div></div></div></div></div>
@@ -1922,20 +2153,21 @@
           <div class="shell">
             <div class="screen fd-os">
               <div class="mframe" data-frame="0" data-mount="fd-home"></div>
-              <div class="mframe" data-frame="1" data-mount="fd-list"></div>
-              <div class="mframe" data-frame="2" data-mount="fd-book"></div>
+              <div class="mframe" data-frame="1" data-mount="fd-list" hidden></div>
+              <div class="mframe" data-frame="2" data-mount="fd-book" hidden></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <footer class="foot"><span>Lalitamba FD · Gadag</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+    <footer class="foot"><span>Lalitamba FD · Gadag</span><button class="text-btn" type="button" data-go="home">← Back to all work</button></footer>
   </main>
 
+  <!-- DEPOSITS DETAIL PAGE -->
   <main class="page" data-page="dep" hidden>
     <section class="hero">
-      <p class="eyebrow">Phone app</p>
+      <p class="eyebrow-pill">Case Study · Family Lending</p>
       <h1>Deposits</h1>
       <p class="lede">A custom family investment tracker for deposits, monthly interest collections, and principal withdrawals. It keeps every member’s balance and the family’s overall progress in one place.</p>
       <ul class="features wide">
@@ -1946,10 +2178,11 @@
         <li><span aria-hidden="true">📊</span><div><b>Family analytics</b><p>Invested, collected, withdrawn, and still out.</p></div></li>
       </ul>
       <div class="actions">
-        <a class="btn" href="https://investment-tracker-khaki-nine.vercel.app" target="_blank" rel="noopener">Live app</a>
-        <a class="btn ghost" href="https://github.com/vikramam/investment-tracker" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://investment-tracker-khaki-nine.vercel.app" target="_blank" rel="noopener">Launch live app ↗</a>
+        <a class="btn ghost" href="https://github.com/vikramam/investment-tracker" target="_blank" rel="noopener">View GitHub</a>
       </div>
     </section>
+
     <div class="phone-hero">
       <div class="phone reel" aria-hidden="true">
         <div class="shell">
@@ -1963,7 +2196,7 @@
     </div>
 
     <section class="handsets">
-      <p class="eyebrow">PWA</p>
+      <p class="eyebrow-pill">PWA Experience</p>
       <h2>On the phone.</h2>
       <p class="lede">Home, what is ready to collect, and how close the family is to break-even.</p>
       <div class="handset-row">
@@ -1988,49 +2221,22 @@
       </div>
     </section>
 
-    <div class="bands">
-      <section class="band">
-        <div class="copy reveal">
-          <h2>The family, on one card.</h2>
-          <p>Invested, interest already collected, and who has a payout ready today. Swipe the card for one person.</p>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-home"></div></div></div>
-        </div>
-      </section>
-      <section class="band flip">
-        <div class="copy reveal">
-          <h2>Collect only when it is due.</h2>
-          <p>A payout stays locked until a full month has passed. One person can mark it collected for the whole family.</p>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-collect"></div></div></div>
-        </div>
-      </section>
-      <section class="band">
-        <div class="copy reveal">
-          <h2>Break-even, from today’s book.</h2>
-          <p>Pending is what is still out. The time left assumes the balances you see now stay put.</p>
-        </div>
-        <div class="phone" aria-hidden="true">
-          <div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-stats"></div></div></div>
-        </div>
-      </section>
-    </div>
-
     <div class="story" data-pin>
       <div class="story-copy">
-        <article class="chapter" data-shot="0">
+        <article class="chapter active-chapter" data-shot="0">
+          <span class="chapter-step">1</span>
           <h2>The family, on one card.</h2>
           <p>Invested, interest already collected, and who has a payout ready today. Swipe the card for one person.</p>
           <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-home"></div></div></div></div></div>
         </article>
         <article class="chapter" data-shot="1">
+          <span class="chapter-step">2</span>
           <h2>Collect only when it is due.</h2>
           <p>A payout stays locked until a full month has passed. One person can mark it collected for the whole family.</p>
           <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-collect"></div></div></div></div></div>
         </article>
         <article class="chapter" data-shot="2">
+          <span class="chapter-step">3</span>
           <h2>Break-even, from today’s book.</h2>
           <p>Pending is what is still out. The time left assumes the balances you see now stay put.</p>
           <div class="inline-shot" aria-hidden="true"><div class="phone"><div class="shell"><div class="screen fd-os"><div class="mframe" data-mount="dep-stats"></div></div></div></div></div>
@@ -2041,29 +2247,33 @@
           <div class="shell">
             <div class="screen fd-os">
               <div class="mframe" data-frame="0" data-mount="dep-home"></div>
-              <div class="mframe" data-frame="1" data-mount="dep-collect"></div>
-              <div class="mframe" data-frame="2" data-mount="dep-stats"></div>
+              <div class="mframe" data-frame="1" data-mount="dep-collect" hidden></div>
+              <div class="mframe" data-frame="2" data-mount="dep-stats" hidden></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <footer class="foot"><span>Family Deposit Tracker</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+    <footer class="foot"><span>Family Deposit Tracker</span><button class="text-btn" type="button" data-go="home">← Back to all work</button></footer>
   </main>
 
+  <!-- TECH STACK PAGE -->
   <main class="page" data-page="stack" hidden>
     <section class="hero tech-intro">
-      <p class="eyebrow">Behind the apps</p>
+      <p class="eyebrow-pill">Architecture & Tooling</p>
       <h1>Tech Stack</h1>
-      <p class="lede">The tools, data layers, and deployment choices used across each project.</p>
+      <p class="lede">The frontend frameworks, Supabase data layers, Gemini AI integrations, and deployment pipelines behind each application.</p>
     </section>
 
     <section class="tech-grid" aria-label="Technology used by project">
       <article class="tech-card">
         <div class="tech-card-head">
           <h2>MIG Stock</h2>
-          <a href="https://github.com/vikramam/mig-stock" target="_blank" rel="noopener">GitHub ↗</a>
+          <div class="tech-links">
+            <a href="https://mig-stock.vercel.app" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/vikramam/mig-stock" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
         </div>
         <ul>
           <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React 18, TypeScript, Vite, and React Router.</div></li>
@@ -2078,7 +2288,10 @@
       <article class="tech-card">
         <div class="tech-card-head">
           <h2>Phoenix</h2>
-          <a href="https://github.com/vikramam/phoenix-gaming-zone" target="_blank" rel="noopener">GitHub ↗</a>
+          <div class="tech-links">
+            <a href="https://phoenix-gaming-zone.vercel.app" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/vikramam/phoenix-gaming-zone" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
         </div>
         <ul>
           <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React 19, TypeScript, Vite, and React Router.</div></li>
@@ -2088,13 +2301,16 @@
           <li><span aria-hidden="true">📄</span><div><b>Documents:</b> jsPDF and html2canvas are included for printable or shareable output.</div></li>
           <li><span aria-hidden="true">📱</span><div><b>Delivery:</b> Offline-capable PWA, deployed on Vercel.</div></li>
         </ul>
-        <p class="tech-note">Supabase Auth and database schema are prepared for a later cloud cutover, but the live UI currently uses the browser store.</p>
+        <p class="tech-note">Supabase Auth and database schema are prepared for a later cloud cutover, while the live UI runs instantaneously on the browser store.</p>
       </article>
 
       <article class="tech-card">
         <div class="tech-card-head">
           <h2>Lalitamba</h2>
-          <a href="https://github.com/vikramam/lalitamba-fd-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+          <div class="tech-links">
+            <a href="https://lalitamba-fd-tracker.vercel.app" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/vikramam/lalitamba-fd-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
         </div>
         <ul>
           <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React, TypeScript, Vite, and React Router.</div></li>
@@ -2109,7 +2325,10 @@
       <article class="tech-card">
         <div class="tech-card-head">
           <h2>Deposits</h2>
-          <a href="https://github.com/vikramam/investment-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+          <div class="tech-links">
+            <a href="https://investment-tracker-khaki-nine.vercel.app" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/vikramam/investment-tracker" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
         </div>
         <ul>
           <li><span aria-hidden="true">⚛️</span><div><b>Frontend:</b> React, TypeScript, Vite, Material UI, and React Router.</div></li>
@@ -2119,32 +2338,105 @@
           <li><span aria-hidden="true">📤</span><div><b>Backup:</b> SheetJS exports all ledger tables to an Excel workbook.</div></li>
           <li><span aria-hidden="true">📱</span><div><b>Delivery:</b> Installable PWA with automatic Vercel deployments from GitHub.</div></li>
         </ul>
-        <p class="tech-note">Analytics uses lightweight progress bars rather than a charting library.</p>
+        <p class="tech-note">Analytics uses lightweight custom progress bars rather than a heavy charting library.</p>
       </article>
     </section>
 
-    <footer class="foot"><span>Technology behind the work</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+    <footer class="foot"><span>Technology behind the work</span><button class="text-btn" type="button" data-go="home">← Back to all work</button></footer>
   </main>
 
+  <!-- REDESIGNED CONTACT PAGE -->
   <main class="page" data-page="contact" hidden>
     <section class="hero tech-intro">
-      <p class="eyebrow">Get in touch</p>
-      <h1>Contact Us</h1>
-      <p class="lede">Like the work, or want a custom app for your business? Tell me what you need. A shop tool, a family tracker, or something else — a short note is enough.</p>
+      <p class="eyebrow-pill">Get in Touch</p>
+      <h1>Let’s build something useful.</h1>
+      <p class="lede">Like the work, or want a custom web app for your business or family? Whether it’s a shop inventory system, an operator dashboard, or a custom tracker — reach out directly.</p>
     </section>
-    <section class="contact-panel" aria-label="Ways to get in touch">
-      <a class="contact-row" href="mailto:vikramam.1993@gmail.com">
-        <span aria-hidden="true">✉️</span>
-        <div><b>Email</b><em>VIKRAMAM.1993@GMAIL.COM</em></div>
-      </a>
-      <a class="contact-row" href="https://wa.me/919036589729" target="_blank" rel="noopener">
-        <span aria-hidden="true">💬</span>
-        <div><b>WhatsApp</b><em>+91 9036589729</em></div>
-      </a>
+
+    <section class="contact-studio" aria-label="Contact options and quick project brief">
+      <!-- Left Column: Direct Channels & Status -->
+      <div class="contact-col">
+        <div class="availability-card">
+          <span class="avail-badge">● Available for new projects</span>
+          <h3>Custom Web Apps & PWAs</h3>
+          <p>Built from scratch with React, TypeScript, Supabase, and Gemini AI — tailored to run smoothly on both counter laptops and phones.</p>
+          <div class="capability-tags">
+            <span>📦 Shop & POS</span>
+            <span>⏱️ Lounge & Booking</span>
+            <span>🏦 Family Finance</span>
+            <span>🤖 Gemini AI / OCR</span>
+          </div>
+        </div>
+
+        <a class="contact-row" href="mailto:vikramam.1993@gmail.com">
+          <div class="contact-icon" aria-hidden="true">✉️</div>
+          <div class="contact-info">
+            <b>Email</b>
+            <em>vikramam.1993@gmail.com</em>
+            <small>Direct inbox · replies within 24h</small>
+          </div>
+          <button class="copy-pill" type="button" data-copy="vikramam.1993@gmail.com">Copy email</button>
+        </a>
+
+        <a class="contact-row" href="https://wa.me/919036589729" target="_blank" rel="noopener">
+          <div class="contact-icon" aria-hidden="true">💬</div>
+          <div class="contact-info">
+            <b>WhatsApp</b>
+            <em>+91 9036589729</em>
+            <small>Fastest for quick questions</small>
+          </div>
+          <span class="copy-pill">Message ↗</span>
+        </a>
+
+        <a class="contact-row" href="https://github.com/vikramam" target="_blank" rel="noopener">
+          <div class="contact-icon" aria-hidden="true">💻</div>
+          <div class="contact-info">
+            <b>GitHub</b>
+            <em>github.com/vikramam</em>
+            <small>Source code & repositories</small>
+          </div>
+          <span class="copy-pill">Profile ↗</span>
+        </a>
+      </div>
+
+      <!-- Right Column: Interactive Quick Project Brief -->
+      <div class="brief-card">
+        <div class="brief-head">
+          <h2>Start a quick conversation</h2>
+          <p>Pick what you have in mind and send a pre-filled note via WhatsApp or Email in one click.</p>
+        </div>
+
+        <div>
+          <label class="brief-label">What are you looking to build?</label>
+          <div class="topic-pills" id="brief-topics">
+            <button type="button" class="topic-pill on" data-topic="Sales & Inventory App">📦 Sales & Inventory</button>
+            <button type="button" class="topic-pill" data-topic="Lounge / Session Timer">🎮 Lounge / Timer</button>
+            <button type="button" class="topic-pill" data-topic="Family Finance Tracker">🏦 Finance Tracker</button>
+            <button type="button" class="topic-pill" data-topic="Custom Web App / PWA">⚡ Custom Web App</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="brief-label" for="brief-name">Your Name (Optional)</label>
+          <input id="brief-name" class="brief-input" type="text" placeholder="e.g. Rahul">
+        </div>
+
+        <div>
+          <label class="brief-label" for="brief-note">Short Note</label>
+          <textarea id="brief-note" class="brief-input" rows="4" placeholder="Tell me a little about the workflow or problem you want to solve..."></textarea>
+        </div>
+
+        <div class="brief-actions">
+          <button type="button" class="btn whatsapp" id="send-wa">💬 Send on WhatsApp ↗</button>
+          <button type="button" class="btn ghost" id="send-mail">✉️ Send via Email ↗</button>
+        </div>
+      </div>
     </section>
-    <footer class="foot"><span>VIKRAM MULGUND</span><button class="text-btn" type="button" data-go="home">All work</button></footer>
+
+    <footer class="foot"><span>VIKRAM MULGUND</span><button class="text-btn" type="button" data-go="home">← Back to all work</button></footer>
   </main>
 
+  <!-- TEMPLATES FOR APP SCREENS -->
   <template id="tpl-px-dash">
     <div class="ui zone">
       <aside class="side"><strong>Phoenix</strong><span class="on">Floor</span><span>Active</span><span>History</span><span>Customers</span><span>Reports</span></aside>
@@ -2573,9 +2865,14 @@
       pages.forEach((p) => { p.hidden = p.dataset.page !== page; });
       const active = pages.find((p) => p.dataset.page === page);
       fillMounts(active);
+
+      document.querySelectorAll(".site-header [data-go]").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.go === page);
+      });
+
       const nextHash = "#" + page;
       if (location.hash !== nextHash) history.replaceState(null, "", location.pathname + location.search + nextHash);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       active.querySelectorAll("[data-pin]").forEach((pin) => updatePin(pin));
     }
 
@@ -2587,31 +2884,100 @@
       document.querySelectorAll("[data-pin]").forEach((pin) => updatePin(pin));
     }
 
-    function updatePin(pin) {
+    function updatePin(pin, forcedIndex = null) {
       const chapters = [...pin.querySelectorAll(".chapter")];
-      const mid = window.innerHeight * 0.5;
-      let active = 0;
-      chapters.forEach((chapter, index) => {
-        if (chapter.getBoundingClientRect().top < mid) active = index;
-      });
+      let active = forcedIndex !== null ? forcedIndex : 0;
+      if (forcedIndex === null) {
+        const mid = window.innerHeight * 0.52;
+        chapters.forEach((chapter, index) => {
+          if (chapter.getBoundingClientRect().top < mid) active = index;
+        });
+      }
+      chapters.forEach((ch, idx) => ch.classList.toggle("active-chapter", idx === active));
       pin.querySelectorAll("[data-frame]").forEach((frame) => {
         frame.hidden = Number(frame.dataset.frame) !== active;
       });
     }
 
+    function buildBriefMessage() {
+      const activeTopic = document.querySelector("#brief-topics .topic-pill.on")?.dataset.topic || "Custom Web App";
+      const name = document.getElementById("brief-name")?.value.trim();
+      const note = document.getElementById("brief-note")?.value.trim();
+      const intro = name ? `Hi Vikram, I'm ${name}.` : "Hi Vikram,";
+      const body = note ? `\n\n${note}` : "\n\nI saw your portfolio and would like to discuss building a similar app.";
+      return {
+        subject: `Project Inquiry: ${activeTopic}`,
+        text: `${intro} I'm interested in a ${activeTopic}.${body}`
+      };
+    }
+
     document.body.addEventListener("click", (event) => {
+      const copyBtn = event.target.closest("[data-copy]");
+      if (copyBtn) {
+        event.preventDefault();
+        event.stopPropagation();
+        navigator.clipboard?.writeText(copyBtn.dataset.copy);
+        const orig = copyBtn.textContent;
+        copyBtn.textContent = "Copied ✓";
+        setTimeout(() => { copyBtn.textContent = orig; }, 1800);
+        return;
+      }
+
+      const topicBtn = event.target.closest(".topic-pill");
+      if (topicBtn) {
+        document.querySelectorAll("#brief-topics .topic-pill").forEach((b) => b.classList.toggle("on", b === topicBtn));
+        return;
+      }
+
+      if (event.target.closest("#send-wa")) {
+        const { text } = buildBriefMessage();
+        window.open(`https://wa.me/919036589729?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+        return;
+      }
+
+      if (event.target.closest("#send-mail")) {
+        const { subject, text } = buildBriefMessage();
+        window.location.href = `mailto:vikramam.1993@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+        return;
+      }
+
+      const pillBtn = event.target.closest("[data-control] button");
+      if (pillBtn) {
+        const group = pillBtn.closest("[data-control]");
+        const targetName = group.dataset.control;
+        const idx = Number(pillBtn.dataset.idx);
+        group.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b === pillBtn));
+        document.querySelectorAll(`[data-reel="${targetName}"]`).forEach((phone) => {
+          const frames = [...phone.querySelectorAll(".mframe")];
+          if (idx === 0) {
+            phone.classList.remove("manual");
+          } else {
+            phone.classList.add("manual");
+            frames.forEach((f, fIdx) => f.classList.toggle("active-frame", fIdx === idx - 1));
+          }
+        });
+        return;
+      }
+
+      const chapter = event.target.closest(".chapter[data-shot]");
+      if (chapter) {
+        const pin = chapter.closest("[data-pin]");
+        if (pin) updatePin(pin, Number(chapter.dataset.shot));
+        return;
+      }
+
       const go = event.target.closest("[data-go]");
       if (go) {
         event.preventDefault();
         show(go.dataset.go);
         return;
       }
+
       const proto = event.target.closest("[data-proto-btn]");
       if (proto) setProto(proto.dataset.protoBtn);
     });
 
     document.addEventListener("scroll", () => {
-      if (document.body.dataset.proto !== "noir") return;
       document.querySelectorAll("[data-pin]").forEach((pin) => {
         if (pin.closest("[hidden]")) return;
         updatePin(pin);
@@ -2629,23 +2995,10 @@
 
     document.getElementById("mig-hero-screen").appendChild(document.getElementById("tpl-mig-dash").content.cloneNode(true));
 
-    const homeMotion = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("inview");
-        homeMotion.unobserve(entry.target);
-      });
-    }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
-    document.querySelectorAll('[data-page="home"] .showcase, [data-page="home"] .foot').forEach((el) => homeMotion.observe(el));
-
     const params = new URLSearchParams(location.search);
     setProto(params.get("proto") === "noir" ? "noir" : "airy");
     const start = params.get("page") || (location.hash || "#home").slice(1);
     show(start);
-    if (params.get("shot") === "bands") {
-      document.querySelectorAll(".hero").forEach((el) => { el.hidden = true; });
-      document.querySelectorAll("[data-page]:not([hidden]) > .device, [data-page]:not([hidden]) > .pair").forEach((el) => { el.hidden = true; });
-    }
   </script>
 </body>
 </html>
